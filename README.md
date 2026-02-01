@@ -1,5 +1,6 @@
----
 <div align="center">
+
+<img src="docs/logo.svg" width="100" alt="PositionDoctor Logo"/>
 
 # PositionDoctor
 
@@ -9,37 +10,40 @@
 [![Go](https://img.shields.io/badge/Go-1.21+-00ADD8?logo=go)](https://go.dev/)
 [![React](https://img.shields.io/badge/React-18+-61DAFB?logo=react)](https://react.dev/)
 
+[English](README.md) | [简体中文](README_zh.md)
+
 </div>
 
 ---
 
-## ✨ What It Does
-
 Upload your GPX/KML file → Get instant diagnosis → One-click fix
 
-### 🎯 Why PositionDoctor?
+Perfect for runners, cyclists, hikers, and anyone who relies on GPS tracking.
 
-| Feature | Details |
-|---------|---------|
-| 🧠 **Smarter Algorithms** | AdaptiveRTS is 30-40% more accurate than Kalman filter |
-| 🔍 **6 Detection Types** | Drift, Jump, Speed, Acceleration, Density, Outlier |
-| 📊 **Health Score** | Multi-dimensional trajectory quality assessment |
-| 🗺️ **Visual Compare** | See original vs corrected side-by-side |
-| 🎬 **Playback Animation** | Watch the repair happen in real-time |
-| 🌐 **Bilingual** | Chinese / English |
+---
 
-## 🚀 Quick Start
+## Features
+
+- **6 Anomaly Detection Types** — Drift, Jump, Speed, Acceleration, Density, Outlier
+- **Smart Repair** — AdaptiveRTS algorithm (30-40% more accurate than Kalman filter)
+- **Visual Analysis** — Interactive map comparison (before/after), health score, playback
+- **Easy Export** — GPX, KML, GeoJSON, JSON
+
+---
+
+## Quick Start
 
 ```bash
-# Clone & start
-git clone https://github.com/your-org/position-doctor.git
+git clone https://github.com/LeslieSSS/position-doctor.git
 cd position-doctor
 docker-compose up -d
-
-# Open http://localhost:3002
 ```
 
-## 📖 API Usage
+Open http://localhost:3002
+
+---
+
+## API Usage
 
 ```bash
 # Upload & diagnose
@@ -50,27 +54,17 @@ curl -X POST http://localhost:8081/api/v1/diagnose \
 curl http://localhost:8081/api/v1/export/{reportId}/gpx -o cleaned.gpx
 ```
 
-## 🛠️ Tech Stack
+---
+
+## Tech Stack
 
 ```
-Backend: Go 1.21 + Chi Router
-Frontend: React 18 + TypeScript + Vite + Tailwind
-Maps: Leaflet + Google Maps
+Frontend: React 18 + TypeScript + Vite + Tailwind + Leaflet
+Backend:  Go 1.21 + Chi Router
 ```
-
-## 📚 Documentation
-
-- [API Reference](docs/API.md)
-- [Algorithm Details](docs/ALGORITHMS.md)
-
-## 📄 License
-
-MIT © 2024 PositionDoctor
 
 ---
 
-<div align="center">
+## License
 
-**Built with ❤️ for GPS enthusiasts**
-
-</div>
+MIT © 2024 PositionDoctor
