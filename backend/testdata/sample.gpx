@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="PositionDoctor Test" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata>
+    <name>Test Track</name>
+    <desc>Sample trajectory for testing PositionDoctor</desc>
+    <author>PositionDoctor</author>
+  </metadata>
+  <trk>
+    <name>Test Track</name>
+    <trkseg>
+      <trkpt lat="39.9042" lon="116.4074">
+        <ele>50.5</ele>
+        <time>2024-01-30T08:00:00Z</time>
+      </trkpt>
+      <trkpt lat="39.9052" lon="116.4084">
+        <ele>51.0</ele>
+        <time>2024-01-30T08:00:05Z</time>
+      </trkpt>
+      <trkpt lat="39.9062" lon="116.4094">
+        <ele>51.5</ele>
+        <time>2024-01-30T08:00:10Z</time>
+      </trkpt>
+      <trkpt lat="39.9072" lon="116.4104">
+        <ele>52.0</ele>
+        <time>2024-01-30T08:00:15Z</time>
+      </trkpt>
+      <trkpt lat="39.9082" lon="116.4114">
+        <ele>52.5</ele>
+        <time>2024-01-30T08:00:20Z</time>
+      </trkpt>
+      <trkpt lat="39.9092" lon="116.4124">
+        <ele>53.0</ele>
+        <time>2024-01-30T08:00:25Z</time>
+      </trkpt>
+      <trkpt lat="39.9102" lon="116.4134">
+        <ele>53.5</ele>
+        <time>2024-01-30T08:00:30Z</time>
+      </trkpt>
+      <trkpt lat="39.9112" lon="116.4144">
+        <ele>54.0</ele>
+        <time>2024-01-30T08:00:35Z</time>
+      </trkpt>
+      <trkpt lat="39.9122" lon="116.4154">
+        <ele>54.5</ele>
+        <time>2024-01-30T08:00:40Z</time>
+      </trkpt>
+      <trkpt lat="39.9132" lon="116.4164">
+        <ele>55.0</ele>
+        <time>2024-01-30T08:00:45Z</time>
+      </trkpt>
+      <!-- Introduce some anomalies for testing -->
+      <trkpt lat="39.9142" lon="116.4174">
+        <ele>55.5</ele>
+        <time>2024-01-30T08:00:50Z</time>
+      </trkpt>
+      <!-- Speed anomaly - very close points -->
+      <trkpt lat="39.9150" lon="116.4180">
+        <ele>56.0</ele>
+        <time>2024-01-30T08:00:51Z</time>
+      </trkpt>
+      <!-- Position jump -->
+      <trkpt lat="39.9200" lon="116.4500">
+        <ele>60.0</ele>
+        <time>2024-01-30T08:01:00Z</time>
+      </trkpt>
+      <trkpt lat="39.9190" lon="116.4190">
+        <ele>56.5</ele>
+        <time>2024-01-30T08:01:05Z</time>
+      </trkpt>
+      <trkpt lat="39.9200" lon="116.4200">
+        <ele>57.0</ele>
+        <time>2024-01-30T08:01:10Z</time>
+      </trkpt>
+      <trkpt lat="39.9210" lon="116.4210">
+        <ele>57.5</ele>
+        <time>2024-01-30T08:01:15Z</time>
+      </trkpt>
+      <trkpt lat="39.9220" lon="116.4220">
+        <ele>58.0</ele>
+        <time>2024-01-30T08:01:20Z</time>
+      </trkpt>
+      <trkpt lat="39.9230" lon="116.4230">
+        <ele>58.5</ele>
+        <time>2024-01-30T08:01:25Z</time>
+      </trkpt>
+      <trkpt lat="39.9240" lon="116.4240">
+        <ele>59.0</ele>
+        <time>2024-01-30T08:01:30Z</time>
+      </trkpt>
+    </trkseg>
+  </trk>
+</gpx>

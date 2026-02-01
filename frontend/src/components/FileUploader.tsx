@@ -1,0 +1,682 @@
+import { useCallback, useState } from 'react'
+import { useDropzone } from 'react-dropzone'
+import { useStore } from '@/hooks/useStore'
+import { useAppTranslation } from '@/hooks/useTranslation'
+import { diagnoseTrack, defaultOptions } from '@/utils/api'
+import { ErrorDisplay } from '@/components/ErrorDisplay'
+
+// 预置演示GPX文件内容
+const DEMO_GPX_CONTENT = `<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="PositionDoctor Demo Track" xmlns="http://www.topografix.com/GPX/1/1">
+  <name>PositionDoctor Demo Track - 深圳南山科技园</name>
+  <desc>演示轨迹文件，包含各种GPS异常用于展示算法修复能力</desc>
+  <trk>
+    <name>科技园环线</name>
+    <trkseg>
+      <trkpt lat="22.543100" lon="113.951000"><ele>15.2</ele><time>2024-01-15T08:30:00Z</time></trkpt>
+      <trkpt lat="22.542900" lon="113.951005"><ele>15.5</ele><time>2024-01-15T08:30:03Z</time></trkpt>
+      <trkpt lat="22.542700" lon="113.951010"><ele>15.8</ele><time>2024-01-15T08:30:06Z</time></trkpt>
+      <trkpt lat="22.542500" lon="113.951015"><ele>16.0</ele><time>2024-01-15T08:30:09Z</time></trkpt>
+      <trkpt lat="22.542300" lon="113.951025"><ele>16.2</ele><time>2024-01-15T08:30:12Z</time></trkpt>
+      <trkpt lat="22.542100" lon="113.951035"><ele>16.5</ele><time>2024-01-15T08:30:15Z</time></trkpt>
+      <trkpt lat="22.541900" lon="113.951045"><ele>16.8</ele><time>2024-01-15T08:30:18Z</time></trkpt>
+      <trkpt lat="22.541700" lon="113.951055"><ele>17.0</ele><time>2024-01-15T08:30:21Z</time></trkpt>
+      <trkpt lat="22.541500" lon="113.951065"><ele>17.2</ele><time>2024-01-15T08:30:24Z</time></trkpt>
+      <trkpt lat="22.541300" lon="113.951080"><ele>17.5</ele><time>2024-01-15T08:30:27Z</time></trkpt>
+      <trkpt lat="22.541100" lon="113.951095"><ele>17.8</ele><time>2024-01-15T08:30:30Z</time></trkpt>
+      <trkpt lat="22.540900" lon="113.951110"><ele>18.0</ele><time>2024-01-15T08:30:33Z</time></trkpt>
+      <trkpt lat="22.540700" lon="113.951125"><ele>18.2</ele><time>2024-01-15T08:30:36Z</time></trkpt>
+      <trkpt lat="22.540500" lon="113.951140"><ele>18.5</ele><time>2024-01-15T08:30:39Z</time></trkpt>
+      <trkpt lat="22.540300" lon="113.951160"><ele>18.8</ele><time>2024-01-15T08:30:42Z</time></trkpt>
+      <trkpt lat="22.540100" lon="113.951180"><ele>19.0</ele><time>2024-01-15T08:30:45Z</time></trkpt>
+      <!-- 开始GPS漂移异常（高楼区域） -->
+      <trkpt lat="22.539900" lon="113.951200"><ele>19.2</ele><time>2024-01-15T08:30:48Z</time></trkpt>
+      <trkpt lat="22.539720" lon="113.951230"><ele>19.5</ele><time>2024-01-15T08:30:51Z</time></trkpt>
+      <trkpt lat="22.539550" lon="113.951280"><ele>19.8</ele><time>2024-01-15T08:30:54Z</time></trkpt>
+      <trkpt lat="22.539380" lon="113.951350"><ele>20.0</ele><time>2024-01-15T08:30:57Z</time></trkpt>
+      <trkpt lat="22.539220" lon="113.951440"><ele>20.2</ele><time>2024-01-15T08:31:00Z</time></trkpt>
+      <trkpt lat="22.539070" lon="113.951550"><ele>20.5</ele><time>2024-01-15T08:31:03Z</time></trkpt>
+      <trkpt lat="22.538930" lon="113.951680"><ele>20.8</ele><time>2024-01-15T08:31:06Z</time></trkpt>
+      <trkpt lat="22.538800" lon="113.951830"><ele>21.0</ele><time>2024-01-15T08:31:09Z</time></trkpt>
+      <trkpt lat="22.538680" lon="113.952000"><ele>21.2</ele><time>2024-01-15T08:31:12Z</time></trkpt>
+      <trkpt lat="22.538580" lon="113.952190"><ele>21.5</ele><time>2024-01-15T08:31:15Z</time></trkpt>
+      <trkpt lat="22.538500" lon="113.952400"><ele>21.8</ele><time>2024-01-15T08:31:18Z</time></trkpt>
+      <trkpt lat="22.538440" lon="113.952630"><ele>22.0</ele><time>2024-01-15T08:31:21Z</time></trkpt>
+      <trkpt lat="22.538400" lon="113.952880"><ele>22.2</ele><time>2024-01-15T08:31:24Z</time></trkpt>
+      <trkpt lat="22.538380" lon="113.953150"><ele>22.5</ele><time>2024-01-15T08:31:27Z</time></trkpt>
+      <trkpt lat="22.538380" lon="113.953440"><ele>22.8</ele><time>2024-01-15T08:31:30Z</time></trkpt>
+      <!-- GPS信号恢复，回到正常轨迹 -->
+      <trkpt lat="22.536600" lon="113.952250"><ele>23.0</ele><time>2024-01-15T08:31:33Z</time></trkpt>
+      <trkpt lat="22.536400" lon="113.952400"><ele>23.2</ele><time>2024-01-15T08:31:36Z</time></trkpt>
+      <trkpt lat="22.536200" lon="113.952580"><ele>23.5</ele><time>2024-01-15T08:31:39Z</time></trkpt>
+      <trkpt lat="22.536050" lon="113.952800"><ele>23.8</ele><time>2024-01-15T08:31:42Z</time></trkpt>
+      <trkpt lat="22.535900" lon="113.953050"><ele>24.0</ele><time>2024-01-15T08:31:45Z</time></trkpt>
+      <trkpt lat="22.535800" lon="113.953350"><ele>24.2</ele><time>2024-01-15T08:31:48Z</time></trkpt>
+      <trkpt lat="22.535700" lon="113.953700"><ele>24.5</ele><time>2024-01-15T08:31:51Z</time></trkpt>
+      <trkpt lat="22.535650" lon="113.954100"><ele>24.8</ele><time>2024-01-15T08:31:54Z</time></trkpt>
+      <trkpt lat="22.535600" lon="113.954550"><ele>25.0</ele><time>2024-01-15T08:31:57Z</time></trkpt>
+      <trkpt lat="22.535580" lon="113.955050"><ele>25.2</ele><time>2024-01-15T08:32:00Z</time></trkpt>
+      <trkpt lat="22.535550" lon="113.955600"><ele>25.5</ele><time>2024-01-15T08:32:03Z</time></trkpt>
+      <trkpt lat="22.535520" lon="113.956200"><ele>25.8</ele><time>2024-01-15T08:32:06Z</time></trkpt>
+      <trkpt lat="22.535500" lon="113.956850"><ele>26.0</ele><time>2024-01-15T08:32:09Z</time></trkpt>
+      <trkpt lat="22.535480" lon="113.957550"><ele>26.2</ele><time>2024-01-15T08:32:12Z</time></trkpt>
+      <trkpt lat="22.535450" lon="113.958300"><ele>26.5</ele><time>2024-01-15T08:32:15Z</time></trkpt>
+      <trkpt lat="22.535400" lon="113.959100"><ele>26.8</ele><time>2024-01-15T08:32:18Z</time></trkpt>
+      <trkpt lat="22.535350" lon="113.959500"><ele>27.0</ele><time>2024-01-15T08:32:21Z</time></trkpt>
+      <trkpt lat="22.535280" lon="113.959950"><ele>27.2</ele><time>2024-01-15T08:32:24Z</time></trkpt>
+      <trkpt lat="22.535180" lon="113.960450"><ele>27.5</ele><time>2024-01-15T08:32:27Z</time></trkpt>
+      <trkpt lat="22.535050" lon="113.960950"><ele>27.8</ele><time>2024-01-15T08:32:30Z</time></trkpt>
+      <trkpt lat="22.534900" lon="113.961450"><ele>28.0</ele><time>2024-01-15T08:32:33Z</time></trkpt>
+      <trkpt lat="22.534720" lon="113.961950"><ele>28.2</ele><time>2024-01-15T08:32:36Z</time></trkpt>
+      <trkpt lat="22.534520" lon="113.962450"><ele>28.5</ele><time>2024-01-15T08:32:39Z</time></trkpt>
+      <trkpt lat="22.534300" lon="113.962950"><ele>28.8</ele><time>2024-01-15T08:32:42Z</time></trkpt>
+      <trkpt lat="22.534060" lon="113.963400"><ele>29.0</ele><time>2024-01-15T08:32:45Z</time></trkpt>
+      <trkpt lat="22.533800" lon="113.963800"><ele>29.2</ele><time>2024-01-15T08:32:48Z</time></trkpt>
+      <trkpt lat="22.533520" lon="113.964150"><ele>29.5</ele><time>2024-01-15T08:32:51Z</time></trkpt>
+      <trkpt lat="22.533230" lon="113.964450"><ele>29.8</ele><time>2024-01-15T08:32:54Z</time></trkpt>
+      <trkpt lat="22.532920" lon="113.964700"><ele>30.0</ele><time>2024-01-15T08:32:57Z</time></trkpt>
+      <trkpt lat="22.532600" lon="113.964900"><ele>30.2</ele><time>2024-01-15T08:33:00Z</time></trkpt>
+      <trkpt lat="22.532270" lon="113.965050"><ele>30.5</ele><time>2024-01-15T08:33:03Z</time></trkpt>
+      <trkpt lat="22.531930" lon="113.965150"><ele>30.8</ele><time>2024-01-15T08:33:06Z</time></trkpt>
+      <trkpt lat="22.531580" lon="113.965200"><ele>31.0</ele><time>2024-01-15T08:33:09Z</time></trkpt>
+      <trkpt lat="22.531230" lon="113.965200"><ele>31.2</ele><time>2024-01-15T08:33:12Z</time></trkpt>
+      <trkpt lat="22.530880" lon="113.965150"><ele>31.5</ele><time>2024-01-15T08:33:15Z</time></trkpt>
+      <!-- 离群点异常 -->
+      <trkpt lat="22.530530" lon="113.965050"><ele>31.8</ele><time>2024-01-15T08:33:18Z</time></trkpt>
+      <trkpt lat="22.532500" lon="113.967500"><ele>32.0</ele><time>2024-01-15T08:33:21Z</time></trkpt>
+      <trkpt lat="22.530230" lon="113.964900"><ele>32.2</ele><time>2024-01-15T08:33:24Z</time></trkpt>
+      <trkpt lat="22.529950" lon="113.964700"><ele>32.5</ele><time>2024-01-15T08:33:27Z</time></trkpt>
+      <trkpt lat="22.529680" lon="113.964450"><ele>32.8</ele><time>2024-01-15T08:33:30Z</time></trkpt>
+      <trkpt lat="22.529420" lon="113.964150"><ele>33.0</ele><time>2024-01-15T08:33:33Z</time></trkpt>
+      <trkpt lat="22.529180" lon="113.963800"><ele>33.2</ele><time>2024-01-15T08:33:36Z</time></trkpt>
+      <trkpt lat="22.528950" lon="113.963400"><ele>33.5</ele><time>2024-01-15T08:33:39Z</time></trkpt>
+      <trkpt lat="22.528740" lon="113.962950"><ele>33.8</ele><time>2024-01-15T08:33:42Z</time></trkpt>
+      <trkpt lat="22.528550" lon="113.962450"><ele>34.0</ele><time>2024-01-15T08:33:45Z</time></trkpt>
+      <trkpt lat="22.528380" lon="113.961900"><ele>34.2</ele><time>2024-01-15T08:33:48Z</time></trkpt>
+      <trkpt lat="22.528240" lon="113.961300"><ele>34.5</ele><time>2024-01-15T08:33:51Z</time></trkpt>
+      <trkpt lat="22.528120" lon="113.960650"><ele>34.8</ele><time>2024-01-15T08:33:54Z</time></trkpt>
+      <trkpt lat="22.528020" lon="113.959950"><ele>35.0</ele><time>2024-01-15T08:33:57Z</time></trkpt>
+      <trkpt lat="22.527950" lon="113.959200"><ele>35.2</ele><time>2024-01-15T08:34:00Z</time></trkpt>
+      <trkpt lat="22.527900" lon="113.958400"><ele>35.5</ele><time>2024-01-15T08:34:03Z</time></trkpt>
+      <trkpt lat="22.527880" lon="113.957550"><ele>35.8</ele><time>2024-01-15T08:34:06Z</time></trkpt>
+      <trkpt lat="22.527880" lon="113.956700"><ele>36.0</ele><time>2024-01-15T08:34:09Z</time></trkpt>
+      <trkpt lat="22.527900" lon="113.955850"><ele>36.2</ele><time>2024-01-15T08:34:12Z</time></trkpt>
+      <trkpt lat="22.527950" lon="113.955000"><ele>36.5</ele><time>2024-01-15T08:34:15Z</time></trkpt>
+      <trkpt lat="22.528020" lon="113.954200"><ele>36.8</ele><time>2024-01-15T08:34:18Z</time></trkpt>
+      <!-- 左转进入深南大道 -->
+      <trkpt lat="22.528120" lon="113.953400"><ele>37.0</ele><time>2024-01-15T08:34:21Z</time></trkpt>
+      <trkpt lat="22.528240" lon="113.952650"><ele>37.2</ele><time>2024-01-15T08:34:24Z</time></trkpt>
+      <trkpt lat="22.528380" lon="113.951950"><ele>37.5</ele><time>2024-01-15T08:34:27Z</time></trkpt>
+      <trkpt lat="22.528550" lon="113.951300"><ele>37.8</ele><time>2024-01-15T08:34:30Z</time></trkpt>
+      <trkpt lat="22.528740" lon="113.950700"><ele>38.0</ele><time>2024-01-15T08:34:33Z</time></trkpt>
+      <trkpt lat="22.528950" lon="113.950150"><ele>38.2</ele><time>2024-01-15T08:34:36Z</time></trkpt>
+      <trkpt lat="22.529180" lon="113.949650"><ele>38.5</ele><time>2024-01-15T08:34:39Z</time></trkpt>
+      <trkpt lat="22.529420" lon="113.949200"><ele>38.8</ele><time>2024-01-15T08:34:42Z</time></trkpt>
+      <trkpt lat="22.529680" lon="113.948800"><ele>39.0</ele><time>2024-01-15T08:34:45Z</time></trkpt>
+      <trkpt lat="22.529950" lon="113.948450"><ele>39.2</ele><time>2024-01-15T08:34:48Z</time></trkpt>
+      <trkpt lat="22.530230" lon="113.948150"><ele>39.5</ele><time>2024-01-15T08:34:51Z</time></trkpt>
+      <trkpt lat="22.530530" lon="113.947900"><ele>39.8</ele><time>2024-01-15T08:34:54Z</time></trkpt>
+      <trkpt lat="22.530840" lon="113.947700"><ele>40.0</ele><time>2024-01-15T08:34:57Z</time></trkpt>
+      <trkpt lat="22.531160" lon="113.947550"><ele>40.2</ele><time>2024-01-15T08:35:00Z</time></trkpt>
+      <trkpt lat="22.531490" lon="113.947450"><ele>40.5</ele><time>2024-01-15T08:35:03Z</time></trkpt>
+      <trkpt lat="22.531830" lon="113.947400"><ele>40.8</ele><time>2024-01-15T08:35:06Z</time></trkpt>
+      <trkpt lat="22.532180" lon="113.947400"><ele>41.0</ele><time>2024-01-15T08:35:09Z</time></trkpt>
+      <trkpt lat="22.532530" lon="113.947450"><ele>41.2</ele><time>2024-01-15T08:35:12Z</time></trkpt>
+      <trkpt lat="22.532880" lon="113.947550"><ele>41.5</ele><time>2024-01-15T08:35:15Z</time></trkpt>
+      <trkpt lat="22.533220" lon="113.947700"><ele>41.8</ele><time>2024-01-15T08:35:18Z</time></trkpt>
+      <trkpt lat="22.533560" lon="113.947900"><ele>42.0</ele><time>2024-01-15T08:35:21Z</time></trkpt>
+      <trkpt lat="22.533890" lon="113.948150"><ele>42.2</ele><time>2024-01-15T08:35:24Z</time></trkpt>
+      <trkpt lat="22.534200" lon="113.948450"><ele>42.5</ele><time>2024-01-15T08:35:27Z</time></trkpt>
+      <trkpt lat="22.534500" lon="113.948800"><ele>42.8</ele><time>2024-01-15T08:35:30Z</time></trkpt>
+      <trkpt lat="22.534780" lon="113.949200"><ele>43.0</ele><time>2024-01-15T08:35:33Z</time></trkpt>
+      <trkpt lat="22.535040" lon="113.949650"><ele>43.2</ele><time>2024-01-15T08:35:36Z</time></trkpt>
+      <trkpt lat="22.535280" lon="113.950150"><ele>43.5</ele><time>2024-01-15T08:35:39Z</time></trkpt>
+      <trkpt lat="22.535490" lon="113.950700"><ele>43.8</ele><time>2024-01-15T08:35:42Z</time></trkpt>
+      <trkpt lat="22.535680" lon="113.951300"><ele>44.0</ele><time>2024-01-15T08:35:45Z</time></trkpt>
+      <trkpt lat="22.535840" lon="113.951950"><ele>44.2</ele><time>2024-01-15T08:35:48Z</time></trkpt>
+      <!-- 深南大道向北 -->
+      <trkpt lat="22.535980" lon="113.952650"><ele>44.5</ele><time>2024-01-15T08:35:51Z</time></trkpt>
+      <trkpt lat="22.536100" lon="113.953400"><ele>44.8</ele><time>2024-01-15T08:35:54Z</time></trkpt>
+      <trkpt lat="22.536190" lon="113.954200"><ele>45.0</ele><time>2024-01-15T08:35:57Z</time></trkpt>
+      <trkpt lat="22.536260" lon="113.955000"><ele>45.2</ele><time>2024-01-15T08:36:00Z</time></trkpt>
+      <trkpt lat="22.536300" lon="113.955850"><ele>45.5</ele><time>2024-01-15T08:36:03Z</time></trkpt>
+      <trkpt lat="22.536320" lon="113.956700"><ele>45.8</ele><time>2024-01-15T08:36:06Z</time></trkpt>
+      <trkpt lat="22.536310" lon="113.957550"><ele>46.0</ele><time>2024-01-15T08:36:09Z</time></trkpt>
+      <trkpt lat="22.536280" lon="113.958400"><ele>46.2</ele><time>2024-01-15T08:36:12Z</time></trkpt>
+      <trkpt lat="22.536230" lon="113.959200"><ele>46.5</ele><time>2024-01-15T08:36:15Z</time></trkpt>
+      <trkpt lat="22.536150" lon="113.959950"><ele>46.8</ele><time>2024-01-15T08:36:18Z</time></trkpt>
+      <trkpt lat="22.536050" lon="113.960650"><ele>47.0</ele><time>2024-01-15T08:36:21Z</time></trkpt>
+      <trkpt lat="22.535930" lon="113.961300"><ele>47.2</ele><time>2024-01-15T08:36:24Z</time></trkpt>
+      <trkpt lat="22.535790" lon="113.961900"><ele>47.5</ele><time>2024-01-15T08:36:27Z</time></trkpt>
+      <trkpt lat="22.535630" lon="113.962450"><ele>47.8</ele><time>2024-01-15T08:36:30Z</time></trkpt>
+      <trkpt lat="22.535450" lon="113.962950"><ele>48.0</ele><time>2024-01-15T08:36:33Z</time></trkpt>
+      <trkpt lat="22.535250" lon="113.963400"><ele>48.2</ele><time>2024-01-15T08:36:36Z</time></trkpt>
+      <trkpt lat="22.535030" lon="113.963800"><ele>48.5</ele><time>2024-01-15T08:36:39Z</time></trkpt>
+      <trkpt lat="22.534790" lon="113.964150"><ele>48.8</ele><time>2024-01-15T08:36:42Z</time></trkpt>
+      <trkpt lat="22.534530" lon="113.964450"><ele>49.0</ele><time>2024-01-15T08:36:45Z</time></trkpt>
+      <trkpt lat="22.534260" lon="113.964700"><ele>49.2</ele><time>2024-01-15T08:36:48Z</time></trkpt>
+      <trkpt lat="22.533970" lon="113.964900"><ele>49.5</ele><time>2024-01-15T08:36:51Z</time></trkpt>
+      <trkpt lat="22.533670" lon="113.965050"><ele>49.8</ele><time>2024-01-15T08:36:54Z</time></trkpt>
+      <trkpt lat="22.533350" lon="113.965150"><ele>50.0</ele><time>2024-01-15T08:36:57Z</time></trkpt>
+      <trkpt lat="22.533020" lon="113.965200"><ele>50.2</ele><time>2024-01-15T08:37:00Z</time></trkpt>
+      <trkpt lat="22.532680" lon="113.965200"><ele>50.5</ele><time>2024-01-15T08:37:03Z</time></trkpt>
+      <trkpt lat="22.532330" lon="113.965150"><ele>50.8</ele><time>2024-01-15T08:37:06Z</time></trkpt>
+      <trkpt lat="22.531970" lon="113.965050"><ele>51.0</ele><time>2024-01-15T08:37:09Z</time></trkpt>
+      <trkpt lat="22.531600" lon="113.964900"><ele>51.2</ele><time>2024-01-15T08:37:12Z</time></trkpt>
+      <trkpt lat="22.531230" lon="113.964700"><ele>51.5</ele><time>2024-01-15T08:37:15Z</time></trkpt>
+      <trkpt lat="22.530850" lon="113.964450"><ele>51.8</ele><time>2024-01-15T08:37:18Z</time></trkpt>
+      <trkpt lat="22.530460" lon="113.964150"><ele>52.0</ele><time>2024-01-15T08:37:21Z</time></trkpt>
+      <trkpt lat="22.530060" lon="113.963800"><ele>52.2</ele><time>2024-01-15T08:37:24Z</time></trkpt>
+      <trkpt lat="22.529650" lon="113.963400"><ele>52.5</ele><time>2024-01-15T08:37:27Z</time></trkpt>
+      <trkpt lat="22.529240" lon="113.962950"><ele>52.8</ele><time>2024-01-15T08:37:30Z</time></trkpt>
+      <trkpt lat="22.528820" lon="113.962450"><ele>53.0</ele><time>2024-01-15T08:37:33Z</time></trkpt>
+      <trkpt lat="22.528390" lon="113.961900"><ele>53.2</ele><time>2024-01-15T08:37:36Z</time></trkpt>
+      <trkpt lat="22.527950" lon="113.961300"><ele>53.5</ele><time>2024-01-15T08:37:39Z</time></trkpt>
+      <trkpt lat="22.527500" lon="113.960650"><ele>53.8</ele><time>2024-01-15T08:37:42Z</time></trkpt>
+      <trkpt lat="22.527050" lon="113.959950"><ele>54.0</ele><time>2024-01-15T08:37:45Z</time></trkpt>
+      <trkpt lat="22.526590" lon="113.959200"><ele>54.2</ele><time>2024-01-15T08:37:48Z</time></trkpt>
+      <trkpt lat="22.526120" lon="113.958400"><ele>54.5</ele><time>2024-01-15T08:37:51Z</time></trkpt>
+      <trkpt lat="22.525640" lon="113.957550"><ele>54.8</ele><time>2024-01-15T08:37:54Z</time></trkpt>
+      <!-- 右转进入沙河西路 -->
+      <trkpt lat="22.525160" lon="113.956700"><ele>55.0</ele><time>2024-01-15T08:37:57Z</time></trkpt>
+      <trkpt lat="22.525100" lon="113.956000"><ele>55.2</ele><time>2024-01-15T08:38:00Z</time></trkpt>
+      <trkpt lat="22.525060" lon="113.955250"><ele>55.5</ele><time>2024-01-15T08:38:03Z</time></trkpt>
+      <trkpt lat="22.525040" lon="113.954450"><ele>55.8</ele><time>2024-01-15T08:38:06Z</time></trkpt>
+      <trkpt lat="22.525040" lon="113.953600"><ele>56.0</ele><time>2024-01-15T08:38:09Z</time></trkpt>
+      <trkpt lat="22.525060" lon="113.952700"><ele>56.2</ele><time>2024-01-15T08:38:12Z</time></trkpt>
+      <trkpt lat="22.525100" lon="113.951750"><ele>56.5</ele><time>2024-01-15T08:38:15Z</time></trkpt>
+      <trkpt lat="22.525160" lon="113.950750"><ele>56.8</ele><time>2024-01-15T08:38:18Z</time></trkpt>
+      <trkpt lat="22.525240" lon="113.949700"><ele>57.0</ele><time>2024-01-15T08:38:21Z</time></trkpt>
+      <trkpt lat="22.525340" lon="113.948600"><ele>57.2</ele><time>2024-01-15T08:38:24Z</time></trkpt>
+      <trkpt lat="22.525460" lon="113.947450"><ele>57.5</ele><time>2024-01-15T08:38:27Z</time></trkpt>
+      <trkpt lat="22.525600" lon="113.946250"><ele>57.8</ele><time>2024-01-15T08:38:30Z</time></trkpt>
+      <trkpt lat="22.525760" lon="113.945000"><ele>58.0</ele><time>2024-01-15T08:38:33Z</time></trkpt>
+      <trkpt lat="22.525940" lon="113.943700"><ele>58.2</ele><time>2024-01-15T08:38:36Z</time></trkpt>
+      <trkpt lat="22.526140" lon="113.942350"><ele>58.5</ele><time>2024-01-15T08:38:39Z</time></trkpt>
+      <trkpt lat="22.526360" lon="113.940950"><ele>58.8</ele><time>2024-01-15T08:38:42Z</time></trkpt>
+      <trkpt lat="22.526600" lon="113.939500"><ele>59.0</ele><time>2024-01-15T08:38:45Z</time></trkpt>
+      <trkpt lat="22.526860" lon="113.938000"><ele>59.2</ele><time>2024-01-15T08:38:48Z</time></trkpt>
+      <trkpt lat="22.527140" lon="113.936450"><ele>59.5</ele><time>2024-01-15T08:38:51Z</time></trkpt>
+      <trkpt lat="22.527440" lon="113.934850"><ele>59.8</ele><time>2024-01-15T08:38:54Z</time></trkpt>
+      <trkpt lat="22.527760" lon="113.933200"><ele>60.0</ele><time>2024-01-15T08:38:57Z</time></trkpt>
+      <trkpt lat="22.528100" lon="113.931500"><ele>60.2</ele><time>2024-01-15T08:39:00Z</time></trkpt>
+      <trkpt lat="22.528460" lon="113.929750"><ele>60.5</ele><time>2024-01-15T08:39:03Z</time></trkpt>
+      <trkpt lat="22.528840" lon="113.927950"><ele>60.8</ele><time>2024-01-15T08:39:06Z</time></trkpt>
+      <trkpt lat="22.529240" lon="113.926100"><ele>61.0</ele><time>2024-01-15T08:39:09Z</time></trkpt>
+      <trkpt lat="22.529660" lon="113.924200"><ele>61.2</ele><time>2024-01-15T08:39:12Z</time></trkpt>
+      <trkpt lat="22.530100" lon="113.922250"><ele>61.5</ele><time>2024-01-15T08:39:15Z</time></trkpt>
+      <trkpt lat="22.530560" lon="113.920250"><ele>61.8</ele><time>2024-01-15T08:39:18Z</time></trkpt>
+      <!-- 沙河西路向南 - 第二段漂移 -->
+      <trkpt lat="22.531040" lon="113.918200"><ele>62.0</ele><time>2024-01-15T08:39:21Z</time></trkpt>
+      <trkpt lat="22.531540" lon="113.916100"><ele>62.2</ele><time>2024-01-15T08:39:24Z</time></trkpt>
+      <trkpt lat="22.532060" lon="113.913950"><ele>62.5</ele><time>2024-01-15T08:39:27Z</time></trkpt>
+      <trkpt lat="22.532600" lon="113.911750"><ele>62.8</ele><time>2024-01-15T08:39:30Z</time></trkpt>
+      <trkpt lat="22.533160" lon="113.909500"><ele>63.0</ele><time>2024-01-15T08:39:33Z</time></trkpt>
+      <trkpt lat="22.533740" lon="113.907200"><ele>63.2</ele><time>2024-01-15T08:39:36Z</time></trkpt>
+      <trkpt lat="22.534340" lon="113.904850"><ele>63.5</ele><time>2024-01-15T08:39:39Z</time></trkpt>
+      <trkpt lat="22.534960" lon="113.902450"><ele>63.8</ele><time>2024-01-15T08:39:42Z</time></trkpt>
+      <trkpt lat="22.535600" lon="113.900000"><ele>64.0</ele><time>2024-01-15T08:39:45Z</time></trkpt>
+      <trkpt lat="22.536260" lon="113.897500"><ele>64.2</ele><time>2024-01-15T08:39:48Z</time></trkpt>
+      <trkpt lat="22.536940" lon="113.894950"><ele>64.5</ele><time>2024-01-15T08:39:51Z</time></trkpt>
+      <trkpt lat="22.537640" lon="113.892350"><ele>64.8</ele><time>2024-01-15T08:39:54Z</time></trkpt>
+      <trkpt lat="22.538360" lon="113.889700"><ele>65.0</ele><time>2024-01-15T08:39:57Z</time></trkpt>
+      <trkpt lat="22.539100" lon="113.887000"><ele>65.2</ele><time>2024-01-15T08:40:00Z</time></trkpt>
+      <trkpt lat="22.539860" lon="113.884250"><ele>65.5</ele><time>2024-01-15T08:40:03Z</time></trkpt>
+      <trkpt lat="22.540640" lon="113.881450"><ele>65.8</ele><time>2024-01-15T08:40:06Z</time></trkpt>
+      <trkpt lat="22.541440" lon="113.878600"><ele>66.0</ele><time>2024-01-15T08:40:09Z</time></trkpt>
+      <!-- 漂移结束，恢复正常 -->
+      <trkpt lat="22.540880" lon="113.880300"><ele>66.2</ele><time>2024-01-15T08:40:12Z</time></trkpt>
+      <trkpt lat="22.540400" lon="113.881950"><ele>66.5</ele><time>2024-01-15T08:40:15Z</time></trkpt>
+      <trkpt lat="22.539960" lon="113.883550"><ele>66.8</ele><time>2024-01-15T08:40:18Z</time></trkpt>
+      <trkpt lat="22.539540" lon="113.885100"><ele>67.0</ele><time>2024-01-15T08:40:21Z</time></trkpt>
+      <trkpt lat="22.539140" lon="113.886600"><ele>67.2</ele><time>2024-01-15T08:40:24Z</time></trkpt>
+      <trkpt lat="22.538760" lon="113.888050"><ele>67.5</ele><time>2024-01-15T08:40:27Z</time></trkpt>
+      <trkpt lat="22.538400" lon="113.889450"><ele>67.8</ele><time>2024-01-15T08:40:30Z</time></trkpt>
+      <trkpt lat="22.538060" lon="113.890800"><ele>68.0</ele><time>2024-01-15T08:40:33Z</time></trkpt>
+      <trkpt lat="22.537740" lon="113.892100"><ele>68.2</ele><time>2024-01-15T08:40:36Z</time></trkpt>
+      <trkpt lat="22.537440" lon="113.893350"><ele>68.5</ele><time>2024-01-15T08:40:39Z</time></trkpt>
+      <trkpt lat="22.537160" lon="113.894550"><ele>68.8</ele><time>2024-01-15T08:40:42Z</time></trkpt>
+      <trkpt lat="22.536900" lon="113.895700"><ele>69.0</ele><time>2024-01-15T08:40:45Z</time></trkpt>
+      <trkpt lat="22.536660" lon="113.896800"><ele>69.2</ele><time>2024-01-15T08:40:48Z</time></trkpt>
+      <trkpt lat="22.536440" lon="113.897850"><ele>69.5</ele><time>2024-01-15T08:40:51Z</time></trkpt>
+      <trkpt lat="22.536240" lon="113.898850"><ele>69.8</ele><time>2024-01-15T08:40:54Z</time></trkpt>
+      <trkpt lat="22.536060" lon="113.899800"><ele>70.0</ele><time>2024-01-15T08:40:57Z</time></trkpt>
+      <trkpt lat="22.535900" lon="113.900700"><ele>70.2</ele><time>2024-01-15T08:41:00Z</time></trkpt>
+      <trkpt lat="22.535760" lon="113.901550"><ele>70.5</ele><time>2024-01-15T08:41:03Z</time></trkpt>
+      <trkpt lat="22.535640" lon="113.902350"><ele>70.8</ele><time>2024-01-15T08:41:06Z</time></trkpt>
+      <trkpt lat="22.535540" lon="113.903100"><ele>71.0</ele><time>2024-01-15T08:41:09Z</time></trkpt>
+      <trkpt lat="22.535460" lon="113.903800"><ele>71.2</ele><time>2024-01-15T08:41:12Z</time></trkpt>
+      <trkpt lat="22.535400" lon="113.904450"><ele>71.5</ele><time>2024-01-15T08:41:15Z</time></trkpt>
+      <trkpt lat="22.535360" lon="113.905050"><ele>71.8</ele><time>2024-01-15T08:41:18Z</time></trkpt>
+      <trkpt lat="22.535340" lon="113.905600"><ele>72.0</ele><time>2024-01-15T08:41:21Z</time></trkpt>
+      <trkpt lat="22.535340" lon="113.906100"><ele>72.2</ele><time>2024-01-15T08:41:24Z</time></trkpt>
+      <trkpt lat="22.535360" lon="113.906550"><ele>72.5</ele><time>2024-01-15T08:41:27Z</time></trkpt>
+      <trkpt lat="22.535400" lon="113.906950"><ele>72.8</ele><time>2024-01-15T08:41:30Z</time></trkpt>
+      <trkpt lat="22.535460" lon="113.907300"><ele>73.0</ele><time>2024-01-15T08:41:33Z</time></trkpt>
+      <trkpt lat="22.535540" lon="113.907600"><ele>73.2</ele><time>2024-01-15T08:41:36Z</time></trkpt>
+      <trkpt lat="22.535640" lon="113.907850"><ele>73.5</ele><time>2024-01-15T08:41:39Z</time></trkpt>
+      <trkpt lat="22.535760" lon="113.908050"><ele>73.8</ele><time>2024-01-15T08:41:42Z</time></trkpt>
+      <trkpt lat="22.535900" lon="113.908200"><ele>74.0</ele><time>2024-01-15T08:41:45Z</time></trkpt>
+      <trkpt lat="22.536060" lon="113.908300"><ele>74.2</ele><time>2024-01-15T08:41:48Z</time></trkpt>
+      <trkpt lat="22.536240" lon="113.908350"><ele>74.5</ele><time>2024-01-15T08:41:51Z</time></trkpt>
+      <trkpt lat="22.536440" lon="113.908350"><ele>74.8</ele><time>2024-01-15T08:41:54Z</time></trkpt>
+      <trkpt lat="22.536660" lon="113.908300"><ele>75.0</ele><time>2024-01-15T08:41:57Z</time></trkpt>
+      <trkpt lat="22.536900" lon="113.908200"><ele>75.2</ele><time>2024-01-15T08:42:00Z</time></trkpt>
+      <trkpt lat="22.537160" lon="113.908050"><ele>75.5</ele><time>2024-01-15T08:42:03Z</time></trkpt>
+      <trkpt lat="22.537440" lon="113.907850"><ele>75.8</ele><time>2024-01-15T08:42:06Z</time></trkpt>
+      <trkpt lat="22.537740" lon="113.907600"><ele>76.0</ele><time>2024-01-15T08:42:09Z</time></trkpt>
+      <trkpt lat="22.538060" lon="113.907300"><ele>76.2</ele><time>2024-01-15T08:42:12Z</time></trkpt>
+      <trkpt lat="22.538400" lon="113.906950"><ele>76.5</ele><time>2024-01-15T08:42:15Z</time></trkpt>
+      <trkpt lat="22.538760" lon="113.906550"><ele>76.8</ele><time>2024-01-15T08:42:18Z</time></trkpt>
+      <trkpt lat="22.539140" lon="113.906100"><ele>77.0</ele><time>2024-01-15T08:42:21Z</time></trkpt>
+      <trkpt lat="22.539540" lon="113.905600"><ele>77.2</ele><time>2024-01-15T08:42:24Z</time></trkpt>
+      <trkpt lat="22.539960" lon="113.905050"><ele>77.5</ele><time>2024-01-15T08:42:27Z</time></trkpt>
+      <trkpt lat="22.540400" lon="113.904450"><ele>77.8</ele><time>2024-01-15T08:42:30Z</time></trkpt>
+      <trkpt lat="22.540880" lon="113.903800"><ele>78.0</ele><time>2024-01-15T08:42:33Z</time></trkpt>
+      <trkpt lat="22.541380" lon="113.903100"><ele>78.2</ele><time>2024-01-15T08:42:36Z</time></trkpt>
+      <trkpt lat="22.541900" lon="113.902350"><ele>78.5</ele><time>2024-01-15T08:42:39Z</time></trkpt>
+      <trkpt lat="22.542440" lon="113.901550"><ele>78.8</ele><time>2024-01-15T08:42:42Z</time></trkpt>
+      <trkpt lat="22.543000" lon="113.900700"><ele>79.0</ele><time>2024-01-15T08:42:45Z</time></trkpt>
+      <!-- 回到起点附近，完成环线 -->
+      <trkpt lat="22.543580" lon="113.901800"><ele>79.2</ele><time>2024-01-15T08:42:48Z</time></trkpt>
+      <trkpt lat="22.543880" lon="113.903100"><ele>79.5</ele><time>2024-01-15T08:42:51Z</time></trkpt>
+      <trkpt lat="22.543940" lon="113.904700"><ele>79.8</ele><time>2024-01-15T08:42:54Z</time></trkpt>
+      <trkpt lat="22.543820" lon="113.906400"><ele>80.0</ele><time>2024-01-15T08:42:57Z</time></trkpt>
+      <trkpt lat="22.543540" lon="113.908100"><ele>80.2</ele><time>2024-01-15T08:43:00Z</time></trkpt>
+      <trkpt lat="22.543120" lon="113.909700"><ele>80.5</ele><time>2024-01-15T08:43:03Z</time></trkpt>
+      <trkpt lat="22.542580" lon="113.911100"><ele>80.8</ele><time>2024-01-15T08:43:06Z</time></trkpt>
+      <trkpt lat="22.541940" lon="113.912300"><ele>81.0</ele><time>2024-01-15T08:43:09Z</time></trkpt>
+      <trkpt lat="22.541220" lon="113.913200"><ele>81.2</ele><time>2024-01-15T08:43:12Z</time></trkpt>
+      <trkpt lat="22.540440" lon="113.913800"><ele>81.5</ele><time>2024-01-15T08:43:15Z</time></trkpt>
+      <trkpt lat="22.539620" lon="113.914100"><ele>81.8</ele><time>2024-01-15T08:43:18Z</time></trkpt>
+      <trkpt lat="22.538780" lon="113.914100"><ele>82.0</ele><time>2024-01-15T08:43:21Z</time></trkpt>
+      <trkpt lat="22.537940" lon="113.913800"><ele>82.2</ele><time>2024-01-15T08:43:24Z</time></trkpt>
+      <trkpt lat="22.537120" lon="113.913200"><ele>82.5</ele><time>2024-01-15T08:43:27Z</time></trkpt>
+      <trkpt lat="22.536340" lon="113.912300"><ele>82.8</ele><time>2024-01-15T08:43:30Z</time></trkpt>
+      <trkpt lat="22.535620" lon="113.911100"><ele>83.0</ele><time>2024-01-15T08:43:33Z</time></trkpt>
+      <trkpt lat="22.534980" lon="113.909700"><ele>83.2</ele><time>2024-01-15T08:43:36Z</time></trkpt>
+      <trkpt lat="22.534420" lon="113.908100"><ele>83.5</ele><time>2024-01-15T08:43:39Z</time></trkpt>
+      <trkpt lat="22.533980" lon="113.906400"><ele>83.8</ele><time>2024-01-15T08:43:42Z</time></trkpt>
+      <trkpt lat="22.533680" lon="113.904700"><ele>84.0</ele><time>2024-01-15T08:43:45Z</time></trkpt>
+      <trkpt lat="22.533520" lon="113.903100"><ele>84.2</ele><time>2024-01-15T08:43:48Z</time></trkpt>
+      <trkpt lat="22.533500" lon="113.901800"><ele>84.5</ele><time>2024-01-15T08:43:51Z</time></trkpt>
+      <trkpt lat="22.533620" lon="113.900700"><ele>84.8</ele><time>2024-01-15T08:43:54Z</time></trkpt>
+      <trkpt lat="22.533880" lon="113.900100"><ele>85.0</ele><time>2024-01-15T08:43:57Z</time></trkpt>
+      <trkpt lat="22.534280" lon="113.900000"><ele>85.2</ele><time>2024-01-15T08:44:00Z</time></trkpt>
+      <trkpt lat="22.534780" lon="113.900500"><ele>85.5</ele><time>2024-01-15T08:44:03Z</time></trkpt>
+      <trkpt lat="22.535380" lon="113.901600"><ele>85.8</ele><time>2024-01-15T08:44:06Z</time></trkpt>
+      <trkpt lat="22.536060" lon="113.903300"><ele>86.0</ele><time>2024-01-15T08:44:09Z</time></trkpt>
+      <trkpt lat="22.536800" lon="113.905600"><ele>86.2</ele><time>2024-01-15T08:44:12Z</time></trkpt>
+      <trkpt lat="22.537580" lon="113.908500"><ele>86.5</ele><time>2024-01-15T08:44:15Z</time></trkpt>
+      <trkpt lat="22.538380" lon="113.911900"><ele>86.8</ele><time>2024-01-15T08:44:18Z</time></trkpt>
+      <trkpt lat="22.539180" lon="113.915700"><ele>87.0</ele><time>2024-01-15T08:44:21Z</time></trkpt>
+      <trkpt lat="22.539960" lon="113.919900"><ele>87.2</ele><time>2024-01-15T08:44:24Z</time></trkpt>
+      <trkpt lat="22.540700" lon="113.924400"><ele>87.5</ele><time>2024-01-15T08:44:27Z</time></trkpt>
+      <trkpt lat="22.541380" lon="113.929100"><ele>87.8</ele><time>2024-01-15T08:44:30Z</time></trkpt>
+      <trkpt lat="22.541980" lon="113.933900"><ele>88.0</ele><time>2024-01-15T08:44:33Z</time></trkpt>
+      <trkpt lat="22.542480" lon="113.938800"><ele>88.2</ele><time>2024-01-15T08:44:36Z</time></trkpt>
+      <trkpt lat="22.542880" lon="113.943700"><ele>88.5</ele><time>2024-01-15T08:44:39Z</time></trkpt>
+      <trkpt lat="22.543160" lon="113.948600"><ele>88.8</ele><time>2024-01-15T08:44:42Z</time></trkpt>
+      <trkpt lat="22.543320" lon="113.950500"><ele>89.0</ele><time>2024-01-15T08:44:45Z</time></trkpt>
+      <trkpt lat="22.543280" lon="113.950800"><ele>89.2</ele><time>2024-01-15T08:44:48Z</time></trkpt>
+      <trkpt lat="22.543180" lon="113.950900"><ele>89.5</ele><time>2024-01-15T08:44:51Z</time></trkpt>
+      <trkpt lat="22.543100" lon="113.951000"><ele>89.8</ele><time>2024-01-15T08:44:54Z</time></trkpt>
+    </trkseg>
+  </trk>
+</gpx>`
+
+// 创建演示文件
+function createDemoFile(): File {
+  const blob = new Blob([DEMO_GPX_CONTENT], { type: 'application/gpx+xml' })
+  return new File([blob], 'demo_track_with_anomalies.gpx', { type: 'application/gpx+xml' })
+}
+
+export function FileUploader() {
+  const { t } = useAppTranslation()
+  const { uploadState, uploadProgress, errorMessage, setUploadState, setUploadProgress, setError, setResultData } = useStore()
+  const [fileName, setFileName] = useState<string | null>(null)
+  const [lastFile, setLastFile] = useState<File | null>(null)
+
+  const onDrop = useCallback(
+    async (acceptedFiles: File[]) => {
+      const file = acceptedFiles[0]
+      if (!file) return
+
+      setLastFile(file)
+      setFileName(file.name)
+      setUploadState('uploading')
+      setError(null)
+
+      // Simulate upload progress
+      let progress = 0
+      const progressInterval = setInterval(() => {
+        progress += 10
+        if (progress < 50) {
+          setUploadProgress(progress)
+        } else {
+          clearInterval(progressInterval)
+        }
+      }, 100)
+
+      try {
+        setUploadState('processing')
+        setUploadProgress(50)
+
+        // Call real backend API
+        const response = await diagnoseTrack(file, defaultOptions)
+
+        clearInterval(progressInterval)
+        setUploadProgress(100)
+
+        // Check response and set result data
+        if (response.success && response.data) {
+          setResultData(response.data, response.meta?.processingTimeMs)
+          setUploadState('completed')
+        } else {
+          setError(response.error || t('errors.title'))
+          setUploadState('error')
+        }
+      } catch (error) {
+        clearInterval(progressInterval)
+        const message = error instanceof Error ? error.message : t('errors.title')
+        setError(message)
+        setUploadState('error')
+      }
+    },
+    [setUploadState, setUploadProgress, setError, setResultData, t]
+  )
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: {
+      'application/gpx+xml': ['.gpx'],
+      'application/vnd.google-earth.kml+xml': ['.kml'],
+    },
+    maxFiles: 1,
+    maxSize: 50 * 1024 * 1024,
+  })
+
+  // Keyboard navigation handler
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      const input = document.querySelector('input[type="file"]') as HTMLInputElement
+      input?.click()
+    }
+  }
+
+  // Retry handler
+  const handleRetry = useCallback(async () => {
+    if (!lastFile) return
+
+    setUploadState('uploading')
+    setError(null)
+    setUploadProgress(0)
+
+    let progress = 0
+    const progressInterval = setInterval(() => {
+      progress += 10
+      if (progress < 50) {
+        setUploadProgress(progress)
+      } else {
+        clearInterval(progressInterval)
+      }
+    }, 100)
+
+    try {
+      setUploadState('processing')
+      setUploadProgress(50)
+      const response = await diagnoseTrack(lastFile, defaultOptions)
+      clearInterval(progressInterval)
+      setUploadProgress(100)
+
+      if (response.success && response.data) {
+        setResultData(response.data, response.meta?.processingTimeMs)
+        setUploadState('completed')
+      } else {
+        setError(response.error || t('errors.title'))
+        setUploadState('error')
+      }
+    } catch (error) {
+      clearInterval(progressInterval)
+      const message = error instanceof Error ? error.message : t('errors.title')
+      setError(message)
+      setUploadState('error')
+    }
+  }, [lastFile, setUploadState, setError, setUploadProgress, setResultData, t])
+
+  // Processing state
+  if (uploadState === 'processing' || uploadState === 'uploading') {
+    return (
+      <div className="max-w-2xl mx-auto">
+        <div className="backdrop-blur-xl bg-slate-900/40 border border-cyan-500/20 rounded-3xl p-12 text-center relative overflow-hidden">
+          {/* Animated background glow */}
+          <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-purple-500/5" />
+
+          {/* Progress ring */}
+          <div className="relative w-40 h-40 mx-auto mb-8">
+            <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="45" fill="none" stroke="rgba(51, 65, 85, 0.5)" strokeWidth="8" />
+              <circle
+                cx="50"
+                cy="50"
+                r="45"
+                fill="none"
+                stroke="url(#gradient)"
+                strokeWidth="8"
+                strokeLinecap="round"
+                strokeDasharray={`${uploadProgress * 2.83} 283`}
+                className="transition-all duration-300"
+              />
+              <defs>
+                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#22d3ee" />
+                  <stop offset="100%" stopColor="#a855f7" />
+                </linearGradient>
+              </defs>
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-3xl font-bold bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                {uploadProgress}%
+              </span>
+            </div>
+          </div>
+
+          <h3 className="text-xl font-semibold text-white mb-2">
+            {t('uploader.processing')}
+          </h3>
+          <p className="text-slate-400">
+            {fileName && `${fileName} - `}
+            {t('uploader.analyzing')}
+          </p>
+
+          {/* Processing steps */}
+          <div className="mt-8 flex items-center justify-center space-x-2 text-sm text-slate-500">
+            <span className={uploadProgress >= 20 ? 'text-cyan-400' : ''}>{t('uploader.stepParsing')}</span>
+            <span>→</span>
+            <span className={uploadProgress >= 40 ? 'text-cyan-400' : ''}>{t('uploader.stepDetection')}</span>
+            <span>→</span>
+            <span className={uploadProgress >= 60 ? 'text-cyan-400' : ''}>{t('uploader.stepRepair')}</span>
+            <span>→</span>
+            <span className={uploadProgress >= 80 ? 'text-cyan-400' : ''}>{t('uploader.stepReport')}</span>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="max-w-2xl mx-auto">
+      {/* Hero text */}
+      <div className="text-center mb-10">
+        <h2 className="text-4xl font-bold text-white mb-4">
+          {t('uploader.title')}
+        </h2>
+        <p className="text-lg text-slate-400">
+          {t('uploader.subtitle')}
+        </p>
+      </div>
+
+      {/* Upload zone */}
+      <div
+        {...getRootProps()}
+        role="button"
+        tabIndex={0}
+        aria-label={t('uploader.title')}
+        aria-describedby="upload-help"
+        onKeyDown={handleKeyDown}
+        className={`
+          group relative backdrop-blur-xl bg-slate-900/40 border-2 border-dashed rounded-3xl p-12 sm:p-16 text-center
+          transition-all duration-300 cursor-pointer overflow-hidden focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2
+          ${isDragActive
+            ? 'border-cyan-400'
+            : 'border-slate-700 hover:border-cyan-500/50'
+          }
+        `}
+      >
+        <input {...getInputProps()} aria-label={t('uploader.selectFile')} />
+
+        {/* Corner decorations */}
+        <div className="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-cyan-500/30 rounded-tl-3xl" aria-hidden="true" />
+        <div className="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2 border-purple-500/30 rounded-tr-3xl" aria-hidden="true" />
+        <div className="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-purple-500/30 rounded-bl-3xl" aria-hidden="true" />
+        <div className="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-cyan-500/30 rounded-br-3xl" aria-hidden="true" />
+
+        <div className="relative">
+          {/* Icon container with glow */}
+          <div className="relative w-28 h-28 mx-auto mb-8">
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-400 to-purple-500 rounded-2xl blur-xl opacity-20 group-hover:opacity-40 transition-opacity" aria-hidden="true" />
+            <div className="relative w-full h-full bg-gradient-to-br from-cyan-400/10 to-purple-500/10 rounded-2xl flex items-center justify-center border border-cyan-500/20">
+              {isDragActive ? (
+                <svg className="w-14 h-14 text-cyan-400 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                </svg>
+              ) : (
+                <svg className="w-14 h-14 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5} aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              )}
+            </div>
+          </div>
+
+          <h3 className="text-2xl font-semibold text-white mb-3">
+            {isDragActive ? t('uploader.dragDropActive') : t('uploader.dragDropInactive')}
+          </h3>
+
+          <p id="upload-help" className="text-slate-400 mb-6" dangerouslySetInnerHTML={{ __html: t('uploader.supportedFormats') }} />
+
+          <div className="flex items-center justify-center space-x-2 text-slate-500">
+            <span>{t('uploader.or')}</span>
+            <span className="px-4 py-2 bg-gradient-to-r from-cyan-500 to-purple-500 text-white rounded-xl font-medium hover:shadow-lg hover:shadow-cyan-500/25 transition-shadow">
+              {t('uploader.selectFile')}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Demo button */}
+      <div className="mt-8 text-center">
+        <button
+          type="button"
+          onClick={async () => {
+            setUploadState('uploading')
+            setUploadProgress(0)
+            setError(null)
+            setFileName('demo_track_with_anomalies.gpx')
+
+            // 模拟上传进度
+            let progress = 0
+            const progressInterval = setInterval(() => {
+              progress += 10
+              if (progress < 50) {
+                setUploadProgress(progress)
+              } else {
+                clearInterval(progressInterval)
+              }
+            }, 100)
+
+            try {
+              setUploadState('processing')
+              setUploadProgress(50)
+
+              // 创建演示文件并调用真实后端API
+              const demoFile = createDemoFile()
+              setLastFile(demoFile)
+              const response = await diagnoseTrack(demoFile, defaultOptions)
+
+              clearInterval(progressInterval)
+              setUploadProgress(100)
+
+              if (response.success && response.data) {
+                setResultData(response.data, response.meta?.processingTimeMs)
+                setUploadState('completed')
+              } else {
+                setError(response.error || t('errors.title'))
+                setUploadState('error')
+              }
+            } catch (error) {
+              clearInterval(progressInterval)
+              const message = error instanceof Error ? error.message : t('errors.title')
+              setError(message)
+              setUploadState('error')
+            }
+          }}
+          className="inline-flex items-center space-x-2 px-6 py-3 bg-slate-800/50 hover:bg-slate-800/70 border border-slate-700 rounded-xl text-slate-300 hover:text-white transition-colors min-h-[44px]"
+        >
+          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>{t('uploader.useDemo')}</span>
+        </button>
+      </div>
+
+      {/* Error display */}
+      {errorMessage && (
+        <div className="mt-6">
+          <ErrorDisplay
+            error={errorMessage}
+            onRetry={handleRetry}
+            suggestions={[
+              t('errors.suggestion1'),
+              t('errors.suggestion2'),
+              t('errors.suggestion3'),
+              t('errors.suggestion4')
+            ]}
+          />
+        </div>
+      )}
+
+      {/* Features */}
+      <div className="mt-12 grid grid-cols-3 gap-4">
+        <div className="backdrop-blur-xl bg-slate-900/30 border border-slate-800/50 rounded-2xl p-4 text-center">
+          <div className="w-10 h-10 mx-auto mb-3 bg-cyan-500/10 rounded-xl flex items-center justify-center">
+            <svg className="w-5 h-5 text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <p className="text-sm text-slate-300">{t('uploader.smartDetection')}</p>
+          <p className="text-xs text-slate-500">{t('uploader.smartDetectionDesc')}</p>
+        </div>
+        <div className="backdrop-blur-xl bg-slate-900/30 border border-slate-800/50 rounded-2xl p-4 text-center">
+          <div className="w-10 h-10 mx-auto mb-3 bg-purple-500/10 rounded-xl flex items-center justify-center">
+            <svg className="w-5 h-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <p className="text-sm text-slate-300">{t('uploader.quickRepair')}</p>
+          <p className="text-xs text-slate-500">{t('uploader.quickRepairDesc')}</p>
+        </div>
+        <div className="backdrop-blur-xl bg-slate-900/30 border border-slate-800/50 rounded-2xl p-4 text-center">
+          <div className="w-10 h-10 mx-auto mb-3 bg-emerald-500/10 rounded-xl flex items-center justify-center">
+            <svg className="w-5 h-5 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <p className="text-sm text-slate-300">{t('uploader.healthScore')}</p>
+          <p className="text-xs text-slate-500">{t('uploader.healthScoreDesc')}</p>
+        </div>
+      </div>
+    </div>
+  )
+}

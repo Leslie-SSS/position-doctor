@@ -1,0 +1,270 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Accessibility: Focus styles */
+*:focus-visible {
+  outline: 2px solid #22d3ee;
+  outline-offset: 2px;
+}
+
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Accessibility: Screen reader only class */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Accessibility: Not visually hidden but available to screen readers */
+.sr-only:not(.sr-only) {
+  position: static;
+  width: auto;
+  height: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+}
+
+/* Touch target size minimum */
+button,
+a,
+[role="button"] {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Exceptions for small inline buttons */
+button:not(.min-h-0),
+a:not(.min-h-0) {
+  min-height: 44px;
+}
+
+/* Small buttons can override with min-h-0 */
+button.min-h-0,
+a.min-h-0 {
+  min-height: auto;
+  min-width: auto;
+}
+
+/* Accessibility: Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Health Score Card Animations */
+@keyframes scoreRingProgress {
+  from {
+    stroke-dashoffset: 175.93;
+  }
+  to {
+    stroke-dashoffset: var(--target-offset, 0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.health-score-animate-in {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.health-score-animate-scale {
+  animation: fadeInScale 0.5s ease-out forwards;
+}
+
+/* Playback marker label styling - 科技感 */
+.playback-marker-label {
+  background: rgba(15, 23, 42, 0.85) !important;
+  border-radius: 6px !important;
+  padding: 6px 12px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  white-space: nowrap !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(4px);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 标签发光效果背景 */
+.playback-marker-label::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes shimmer-fast {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+
+@keyframes shimmer-slow {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes scan-vertical {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 0% 200%; }
+}
+
+@keyframes border-pulse {
+  0%, 100% { border-color: rgba(6, 182, 212, 0.3); }
+  50% { border-color: rgba(6, 182, 212, 0.6); }
+}
+
+@keyframes border-flow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+
+@keyframes light-sweep {
+  0% { transform: translateX(-100%); }
+  50%, 100% { transform: translateX(100%); }
+}
+
+@keyframes pulse-ring {
+  0%, 100% { opacity: 0; box-shadow: 0 0 20px rgba(6, 182, 212, 0.4), inset 0 0 20px rgba(6, 182, 212, 0.1); }
+  50% { opacity: 1; box-shadow: 0 0 30px rgba(6, 182, 212, 0.6), inset 0 0 30px rgba(6, 182, 212, 0.2); }
+}
+
+@keyframes float-dot {
+  0%, 100% { transform: translateY(0) scale(1); opacity: 0.4; }
+  50% { transform: translateY(-4px) scale(1.2); opacity: 1; }
+}
+
+@keyframes icon-glow {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Progress bar charging animation - 蓄能效果 */
+@keyframes energyPulse {
+  0%, 100% {
+    opacity: 0.6;
+    transform: scaleX(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1.05);
+  }
+}
+
+@keyframes energyFlow {
+  0% {
+    left: -20%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    left: 120%;
+    opacity: 0;
+  }
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 8px currentColor, 0 0 16px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 12px currentColor, 0 0 24px currentColor, 0 0 32px currentColor;
+  }
+}
+
+/* 原始轨迹标签 - 橙色霓虹 */
+.playback-label-orange {
+  border: 1px solid rgba(249, 115, 22, 0.7) !important;
+  color: #fb923c !important;
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.5),
+              0 0 20px rgba(249, 115, 22, 0.3),
+              inset 0 0 10px rgba(249, 115, 22, 0.1) !important;
+}
+
+.playback-label-orange::before {
+  border-top-color: rgba(249, 115, 22, 0.9) !important;
+  filter: drop-shadow(0 0 6px rgba(249, 115, 22, 0.8));
+}
+
+/* 修复轨迹标签 - 青色霓虹 */
+.playback-label-cyan {
+  border: 1px solid rgba(34, 211, 238, 0.7) !important;
+  color: #22d3ee !important;
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.5),
+              0 0 20px rgba(34, 211, 238, 0.3),
+              inset 0 0 10px rgba(34, 211, 238, 0.1) !important;
+}
+
+.playback-label-cyan::before {
+  border-top-color: rgba(34, 211, 238, 0.9) !important;
+  filter: drop-shadow(0 0 6px rgba(34, 211, 238, 0.8));
+}

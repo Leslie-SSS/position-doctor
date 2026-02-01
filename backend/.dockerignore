@@ -1,0 +1,38 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+server
+
+# Test files
+*_test.go
+*.test
+test/
+coverage.txt
+coverage.html
+
+# Dependencies
+vendor/
+
+# Git
+.git/
+.gitignore
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Documentation
+docs/
+*.md
+!README.md
+
+# Environment
+.env
+.env.local
+.env.*.local

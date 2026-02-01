@@ -1,0 +1,84 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom scrollbar */
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f1f5f9;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: #f1f5f9;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin.dark::-webkit-scrollbar-track {
+    background: #1f2937;
+  }
+
+  .scrollbar-thin.dark::-webkit-scrollbar-thumb {
+    background-color: #4b5563;
+  }
+}
+
+/* MapLibre GL styles */
+@layer components {
+  .map-container {
+    @apply relative w-full h-full min-h-[400px] rounded-lg overflow-hidden;
+  }
+
+  .maplibregl-map {
+    @apply outline-none;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-slideIn {
+  animation: slideIn 0.3s ease-out;
+}
+
+/* Glass morphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dark .glass {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}

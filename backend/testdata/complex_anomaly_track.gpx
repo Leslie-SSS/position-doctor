@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="PositionDoctor Test Suite" xmlns="http://www.topografix.com/GPX/1/1">
+  <metadata>
+    <name>Complex Anomaly Test Track - Beijing</name>
+    <desc>Complex urban driving trajectory with various GPS anomalies for testing PositionDoctor algorithms</desc>
+    <author>PositionDoctor Test Suite</author>
+    <time>2024-01-31T08:00:00Z</time>
+    <bounds minlat="39.9000" minlon="116.4000" maxlat="39.9500" maxlon="116.4800"/>
+  </metadata>
+  <trk>
+    <name>Complex Anomaly Test Track</name>
+    <trkseg>
+      <!-- Starting point: Beijing Zhongguancun area -->
+      <trkpt lat="39.9800" lon="116.3100">
+        <ele>52.0</ele>
+        <time>2024-01-31T08:00:00Z</time>
+      </trkpt>
+
+      <!-- Normal driving north along Zhongguancun West Road (points 1-30) -->
+      <trkpt lat="39.9805" lon="116.3102"><ele>52.5</ele><time>2024-01-31T08:00:03Z</time></trkpt>
+      <trkpt lat="39.9810" lon="116.3105"><ele>53.0</ele><time>2024-01-31T08:00:06Z</time></trkpt>
+      <trkpt lat="39.9818" lon="116.3110"><ele>53.2</ele><time>2024-01-31T08:00:09Z</time></trkpt>
+      <trkpt lat="39.9825" lon="116.3115"><ele>53.5</ele><time>2024-01-31T08:00:12Z</time></trkpt>
+      <trkpt lat="39.9832" lon="116.3120"><ele>54.0</ele><time>2024-01-31T08:00:15Z</time></trkpt>
+      <trkpt lat="39.9838" lon="116.3128"><ele>54.2</ele><time>2024-01-31T08:00:18Z</time></trkpt>
+      <trkpt lat="39.9845" lon="116.3135"><ele>54.5</ele><time>2024-01-31T08:00:21Z</time></trkpt>
+      <trkpt lat="39.9852" lon="116.3142"><ele>55.0</ele><time>2024-01-31T08:00:24Z</time></trkpt>
+      <trkpt lat="39.9858" lon="116.3150"><ele>55.2</ele><time>2024-01-31T08:00:27Z</time></trkpt>
+      <trkpt lat="39.9865" lon="116.3158"><ele>55.5</ele><time>2024-01-31T08:00:30Z</time></trkpt>
+      <trkpt lat="39.9872" lon="116.3165"><ele>56.0</ele><time>2024-01-31T08:00:33Z</time></trkpt>
+      <trkpt lat="39.9878" lon="116.3172"><ele>56.5</ele><time>2024-01-31T08:00:36Z</time></trkpt>
+      <trkpt lat="39.9885" lon="116.3180"><ele>57.0</ele><time>2024-01-31T08:00:39Z</time></trkpt>
+      <trkpt lat="39.9892" lon="116.3188"><ele>57.2</ele><time>2024-01-31T08:00:42Z</time></trkpt>
+      <trkpt lat="39.9900" lon="116.3195"><ele>57.5</ele><time>2024-01-31T08:00:45Z</time></trkpt>
+      <trkpt lat="39.9908" lon="116.3202"><ele>58.0</ele><time>2024-01-31T08:00:48Z</time></trkpt>
+      <trkpt lat="39.9915" lon="116.3210"><ele>58.2</ele><time>2024-01-31T08:00:51Z</time></trkpt>
+      <trkpt lat="39.9922" lon="116.3218"><ele>58.5</ele><time>2024-01-31T08:00:54Z</time></trkpt>
+      <trkpt lat="39.9930" lon="116.3225"><ele>59.0</ele><time>2024-01-31T08:00:57Z</time></trkpt>
+      <trkpt lat="39.9938" lon="116.3232"><ele>59.5</ele><time>2024-01-31T08:01:00Z</time></trkpt>
+      <trkpt lat="39.9945" lon="116.3240"><ele>59.8</ele><time>2024-01-31T08:01:03Z</time></trkpt>
+      <trkpt lat="39.9952" lon="116.3248"><ele>60.0</ele><time>2024-01-31T08:01:06Z</time></trkpt>
+      <trkpt lat="39.9960" lon="116.3255"><ele>60.5</ele><time>2024-01-31T08:01:09Z</time></trkpt>
+      <trkpt lat="39.9968" lon="116.3262"><ele>61.0</ele><time>2024-01-31T08:01:12Z</time></trkpt>
+      <trkpt lat="39.9975" lon="116.3270"><ele>61.2</ele><time>2024-01-31T08:01:15Z</time></trkpt>
+      <trkpt lat="39.9982" lon="116.3278"><ele>61.5</ele><time>2024-01-31T08:01:18Z</time></trkpt>
+      <trkpt lat="39.9990" lon="116.3285"><ele>62.0</ele><time>2024-01-31T08:01:21Z</time></trkpt>
+      <trkpt lat="39.9998" lon="116.3292"><ele>62.5</ele><time>2024-01-31T08:01:24Z</time></trkpt>
+      <trkpt lat="40.0005" lon="116.3300"><ele>62.8</ele><time>2024-01-31T08:01:27Z</time></trkpt>
+      <trkpt lat="40.0012" lon="116.3308"><ele>63.0</ele><time>2024-01-31T08:01:30Z</time></trkpt>
+      <trkpt lat="40.0020" lon="116.3315"><ele>63.5</ele><time>2024-01-31T08:01:33Z</time></trkpt>
+      <trkpt lat="40.0028" lon="116.3322"><ele>64.0</ele><time>2024-01-31T08:01:36Z</time></trkpt>
+      <trkpt lat="40.0035" lon="116.3330"><ele>64.2</ele><time>2024-01-31T08:01:39Z</time></trkpt>
+      <trkpt lat="40.0042" lon="116.3338"><ele>64.5</ele><time>2024-01-31T08:01:42Z</time></trkpt>
+
+      <!-- GPS DRIFT ANOMALY (points 31-50): High building area causing signal reflection -->
+      <!-- Gradual drift eastward from expected path -->
+      <trkpt lat="40.0050" lon="116.3345"><ele>65.0</ele><time>2024-01-31T08:01:45Z</time></trkpt>
+      <trkpt lat="40.0055" lon="116.3358"><ele>65.2</ele><time>2024-01-31T08:01:48Z</time></trkpt> <!-- drift start -->
+      <trkpt lat="40.0060" lon="116.3375"><ele>65.5</ele><time>2024-01-31T08:01:51Z</time></trkpt>
+      <trkpt lat="40.0065" lon="116.3395"><ele>65.8</ele><time>2024-01-31T08:01:54Z</time></trkpt>
+      <trkpt lat="40.0070" lon="116.3418"><ele>66.0</ele><time>2024-01-31T08:01:57Z</time></trkpt>
+      <trkpt lat="40.0075" lon="116.3442"><ele>66.5</ele><time>2024-01-31T08:02:00Z</time></trkpt>
+      <trkpt lat="40.0080" lon="116.3465"><ele>66.8</ele><time>2024-01-31T08:02:03Z</time></trkpt>
+      <trkpt lat="40.0085" lon="116.3488"><ele>67.0</ele><time>2024-01-31T08:02:06Z</time></trkpt>
+      <trkpt lat="40.0090" lon="116.3510"><ele>67.5</ele><time>2024-01-31T08:02:09Z</time></trkpt>
+      <trkpt lat="40.0095" lon="116.3532"><ele>67.8</ele><time>2024-01-31T08:02:12Z</time></trkpt>
+      <trkpt lat="40.0100" lon="116.3555"><ele>68.0</ele><time>2024-01-31T08:02:15Z</time></trkpt>
+      <trkpt lat="40.0105" lon="116.3578"><ele>68.2</ele><time>2024-01-31T08:02:18Z</time></trkpt>
+      <trkpt lat="40.0110" lon="116.3600"><ele>68.5</ele><time>2024-01-31T08:02:21Z</time></trkpt>
+      <trkpt lat="40.0115" lon="116.3620"><ele>69.0</ele><time>2024-01-31T08:02:24Z</time></trkpt>
+      <trkpt lat="40.0120" lon="116.3640"><ele>69.2</ele><time>2024-01-31T08:02:27Z</time></trkpt>
+      <trkpt lat="40.0125" lon="116.3658"><ele>69.5</ele><time>2024-01-31T08:02:30Z</time></trkpt>
+      <trkpt lat="40.0130" lon="116.3675"><ele>70.0</ele><time>2024-01-31T08:02:33Z</time></trkpt>
+      <trkpt lat="40.0135" lon="116.3690"><ele>70.2</ele><time>2024-01-31T08:02:36Z</time></trkpt>
+      <trkpt lat="40.0140" lon="116.3705"><ele>70.5</ele><time>2024-01-31T08:02:39Z</time></trkpt>
+      <trkpt lat="40.0145" lon="116.3718"><ele>70.8</ele><time>2024-01-31T08:02:42Z</time></trkpt>
+      <trkpt lat="40.0150" lon="116.3730"><ele>71.0</ele><time>2024-01-31T08:02:45Z</time></trkpt>
+      <trkpt lat="40.0152" lon="116.3735"><ele>71.2</ele><time>2024-01-31T08:02:48Z</time></trkpt> <!-- drift end -->
+
+      <!-- Recovery to normal path (points 51-65) -->
+      <trkpt lat="40.0155" lon="116.3600"><ele>71.0</ele><time>2024-01-31T08:02:51Z</time></trkpt> <!-- correction back -->
+      <trkpt lat="40.0160" lon="116.3500"><ele>70.5</ele><time>2024-01-31T08:02:54Z</time></trkpt>
+      <trkpt lat="40.0165" lon="116.3405"><ele>70.0</ele><time>2024-01-31T08:02:57Z</time></trkpt>
+      <trkpt lat="40.0170" lon="116.3355"><ele>69.5</ele><time>2024-01-31T08:03:00Z</time></trkpt>
+      <trkpt lat="40.0175" lon="116.3358"><ele>69.2</ele><time>2024-01-31T08:03:03Z</time></trkpt>
+      <trkpt lat="40.0180" lon="116.3362"><ele>69.0</ele><time>2024-01-31T08:03:06Z</time></trkpt>
+      <trkpt lat="40.0185" lon="116.3368"><ele>68.5</ele><time>2024-01-31T08:03:09Z</time></trkpt>
+      <trkpt lat="40.0190" lon="116.3375"><ele>68.0</ele><time>2024-01-31T08:03:12Z</time></trkpt>
+      <trkpt lat="40.0195" lon="116.3382"><ele>67.5</ele><time>2024-01-31T08:03:15Z</time></trkpt>
+      <trkpt lat="40.0200" lon="116.3390"><ele>67.0</ele><time>2024-01-31T08:03:18Z</time></trkpt>
+      <trkpt lat="40.0205" lon="116.3398"><ele>66.5</ele><time>2024-01-31T08:03:21Z</time></trkpt>
+      <trkpt lat="40.0210" lon="116.3405"><ele>66.0</ele><time>2024-01-31T08:03:24Z</time></trkpt>
+      <trkpt lat="40.0215" lon="116.3412"><ele>65.5</ele><time>2024-01-31T08:03:27Z</time></trkpt>
+      <trkpt lat="40.0220" lon="116.3420"><ele>65.0</ele><time>2024-01-31T08:03:30Z</time></trkpt>
+      <trkpt lat="40.0225" lon="116.3428"><ele>64.8</ele><time>2024-01-31T08:03:33Z</time></trkpt>
+      <trkpt lat="40.0230" lon="116.3435"><ele>64.5</ele><time>2024-01-31T08:03:36Z</time></trkpt>
+
+      <!-- Turn east onto Chengfu Road (points 66-100) -->
+      <trkpt lat="40.0235" lon="116.3445"><ele>64.2</ele><time>2024-01-31T08:03:39Z</time></trkpt>
+      <trkpt lat="40.0238" lon="116.3458"><ele>64.0</ele><time>2024-01-31T08:03:42Z</time></trkpt>
+      <trkpt lat="40.0240" lon="116.3472"><ele>63.8</ele><time>2024-01-31T08:03:45Z</time></trkpt>
+      <trkpt lat="40.0242" lon="116.3485"><ele>63.5</ele><time>2024-01-31T08:03:48Z</time></trkpt>
+      <trkpt lat="40.0245" lon="116.3500"><ele>63.2</ele><time>2024-01-31T08:03:51Z</time></trkpt>
+      <trkpt lat="40.0245" lon="116.3515"><ele>63.0</ele><time>2024-01-31T08:03:54Z</time></trkpt>
+      <trkpt lat="40.0245" lon="116.3530"><ele>62.8</ele><time>2024-01-31T08:03:57Z</time></trkpt>
+      <trkpt lat="40.0243" lon="116.3545"><ele>62.5</ele><time>2024-01-31T08:04:00Z</time></trkpt>
+      <trkpt lat="40.0240" lon="116.3560"><ele>62.2</ele><time>2024-01-31T08:04:03Z</time></trkpt>
+      <trkpt lat="40.0238" lon="116.3575"><ele>62.0</ele><time>2024-01-31T08:04:06Z</time></trkpt>
+      <trkpt lat="40.0235" lon="116.3590"><ele>61.8</ele><time>2024-01-31T08:04:09Z</time></trkpt>
+      <trkpt lat="40.0232" lon="116.3605"><ele>61.5</ele><time>2024-01-31T08:04:12Z</time></trkpt>
+      <trkpt lat="40.0230" lon="116.3620"><ele>61.2</ele><time>2024-01-31T08:04:15Z</time></trkpt>
+      <trkpt lat="40.0228" lon="116.3635"><ele>61.0</ele><time>2024-01-31T08:04:18Z</time></trkpt>
+      <trkpt lat="40.0225" lon="116.3650"><ele>60.8</ele><time>2024-01-31T08:04:21Z</time></trkpt>
+      <trkpt lat="40.0222" lon="116.3665"><ele>60.5</ele><time>2024-01-31T08:04:24Z</time></trkpt>
+      <trkpt lat="40.0220" lon="116.3680"><ele>60.2</ele><time>2024-01-31T08:04:27Z</time></trkpt>
+      <trkpt lat="40.0218" lon="116.3695"><ele>60.0</ele><time>2024-01-31T08:04:30Z</time></trkpt>
+      <trkpt lat="40.0215" lon="116.3710"><ele>59.8</ele><time>2024-01-31T08:04:33Z</time></trkpt>
+      <trkpt lat="40.0212" lon="116.3725"><ele>59.5</ele><time>2024-01-31T08:04:36Z</time></trkpt>
+      <trkpt lat="40.0210" lon="116.3740"><ele>59.2</ele><time>2024-01-31T08:04:39Z</time></trkpt>
+      <trkpt lat="40.0208" lon="116.3755"><ele>59.0</ele><time>2024-01-31T08:04:42Z</time></trkpt>
+      <trkpt lat="40.0205" lon="116.3770"><ele>58.8</ele><time>2024-01-31T08:04:45Z</time></trkpt>
+      <trkpt lat="40.0202" lon="116.3785"><ele>58.5</ele><time>2024-01-31T08:04:48Z</time></trkpt>
+      <trkpt lat="40.0200" lon="116.3800"><ele>58.2</ele><time>2024-01-31T08:04:51Z</time></trkpt>
+      <trkpt lat="40.0198" lon="116.3815"><ele>58.0</ele><time>2024-01-31T08:04:54Z</time></trkpt>
+      <trkpt lat="40.0195" lon="116.3830"><ele>57.8</ele><time>2024-01-31T08:04:57Z</time></trkpt>
+      <trkpt lat="40.0192" lon="116.3845"><ele>57.5</ele><time>2024-01-31T08:05:00Z</time></trkpt>
+      <trkpt lat="40.0190" lon="116.3860"><ele>57.2</ele><time>2024-01-31T08:05:03Z</time></trkpt>
+      <trkpt lat="40.0188" lon="116.3875"><ele>57.0</ele><time>2024-01-31T08:05:06Z</time></trkpt>
+      <trkpt lat="40.0185" lon="116.3890"><ele>56.8</ele><time>2024-01-31T08:05:09Z</time></trkpt>
+      <trkpt lat="40.0182" lon="116.3905"><ele>56.5</ele><time>2024-01-31T08:05:12Z</time></trkpt>
+      <trkpt lat="40.0180" lon="116.3920"><ele>56.2</ele><time>2024-01-31T08:05:15Z</time></trkpt>
+      <trkpt lat="40.0178" lon="116.3935"><ele>56.0</ele><time>2024-01-31T08:05:18Z</time></trkpt>
+      <trkpt lat="40.0175" lon="116.3950"><ele>55.8</ele><time>2024-01-31T08:05:21Z</time></trkpt>
+      <trkpt lat="40.0172" lon="116.3965"><ele>55.5</ele><time>2024-01-31T08:05:24Z</time></trkpt>
+      <trkpt lat="40.0170" lon="116.3980"><ele>55.2</ele><time>2024-01-31T08:05:27Z</time></trkpt>
+      <trkpt lat="40.0168" lon="116.3995"><ele>55.0</ele><time>2024-01-31T08:05:30Z</time></trkpt>
+
+      <!-- SPEED ANOMALY (points 101-120): Shows impossibly high speeds -->
+      <!-- Time gaps are small but distance is large -->
+      <trkpt lat="40.0165" lon="116.4010"><ele>54.8</ele><time>2024-01-31T08:05:33Z</time></trkpt>
+      <trkpt lat="40.0162" lon="116.4025"><ele>54.5</ele><time>2024-01-31T08:05:35Z</time></trkpt> <!-- 2 seconds -->
+      <trkpt lat="40.0160" lon="116.4080"><ele>54.2</ele><time>2024-01-31T08:05:37Z</time></trkpt> <!-- High speed! -->
+      <trkpt lat="40.0155" lon="116.4150"><ele>53.8</ele><time>2024-01-31T08:05:39Z</time></trkpt> <!-- Even faster -->
+      <trkpt lat="40.0150" lon="116.4220"><ele>53.5</ele><time>2024-01-31T08:05:41Z</time></trkpt> <!-- Anomaly speed -->
+      <trkpt lat="40.0145" lon="116.4290"><ele>53.0</ele><time>2024-01-31T08:05:43Z</time></trkpt>
+      <trkpt lat="40.0140" lon="116.4350"><ele>52.8</ele><time>2024-01-31T08:05:45Z</time></trkpt>
+      <trkpt lat="40.0135" lon="116.4400"><ele>52.5</ele><time>2024-01-31T08:05:47Z</time></trkpt>
+      <trkpt lat="40.0130" lon="116.4440"><ele>52.0</ele><time>2024-01-31T08:05:49Z</time></trkpt>
+      <trkpt lat="40.0125" lon="116.4470"><ele>51.8</ele><time>2024-01-31T08:05:51Z</time></trkpt>
+      <trkpt lat="40.0120" lon="116.4495"><ele>51.5</ele><time>2024-01-31T08:05:53Z</time></trkpt>
+      <trkpt lat="40.0115" lon="116.4515"><ele>51.2</ele><time>2024-01-31T08:05:55Z</time></trkpt>
+      <trkpt lat="40.0110" lon="116.4530"><ele>50.8</ele><time>2024-01-31T08:05:57Z</time></trkpt>
+      <trkpt lat="40.0105" lon="116.4540"><ele>50.5</ele><time>2024-01-31T08:05:59Z</time></trkpt>
+      <trkpt lat="40.0100" lon="116.4548"><ele>50.2</ele><time>2024-01-31T08:06:01Z</time></trkpt>
+      <trkpt lat="40.0095" lon="116.4555"><ele>50.0</ele><time>2024-01-31T08:06:03Z</time></trkpt>
+      <trkpt lat="40.0090" lon="116.4562"><ele>49.8</ele><time>2024-01-31T08:06:05Z</time></trkpt>
+      <trkpt lat="40.0085" lon="116.4570"><ele>49.5</ele><time>2024-01-31T08:06:07Z</time></trkpt>
+      <trkpt lat="40.0080" lon="116.4578"><ele>49.2</ele><time>2024-01-31T08:06:09Z</time></trkpt>
+      <trkpt lat="40.0075" lon="116.4585"><ele>49.0</ele><time>2024-01-31T08:06:11Z</time></trkpt>
+      <trkpt lat="40.0070" lon="116.4592"><ele>48.8</ele><time>2024-01-31T08:06:13Z</time></trkpt>
+      <trkpt lat="40.0065" lon="116.4600"><ele>48.5</ele><time>2024-01-31T08:06:15Z</time></trkpt>
+
+      <!-- Normal driving south (points 121-150) -->
+      <trkpt lat="40.0060" lon="116.4605"><ele>48.2</ele><time>2024-01-31T08:06:18Z</time></trkpt>
+      <trkpt lat="40.0055" lon="116.4610"><ele>48.0</ele><time>2024-01-31T08:06:21Z</time></trkpt>
+      <trkpt lat="40.0048" lon="116.4615"><ele>47.8</ele><time>2024-01-31T08:06:24Z</time></trkpt>
+      <trkpt lat="40.0040" lon="116.4620"><ele>47.5</ele><time>2024-01-31T08:06:27Z</time></trkpt>
+      <trkpt lat="40.0032" lon="116.4625"><ele>47.2</ele><time>2024-01-31T08:06:30Z</time></trkpt>
+      <trkpt lat="40.0025" lon="116.4630"><ele>47.0</ele><time>2024-01-31T08:06:33Z</time></trkpt>
+      <trkpt lat="40.0018" lon="116.4635"><ele>46.8</ele><time>2024-01-31T08:06:36Z</time></trkpt>
+      <trkpt lat="40.0010" lon="116.4640"><ele>46.5</ele><time>2024-01-31T08:06:39Z</time></trkpt>
+      <trkpt lat="40.0002" lon="116.4645"><ele>46.2</ele><time>2024-01-31T08:06:42Z</time></trkpt>
+      <trkpt lat="39.9995" lon="116.4650"><ele>46.0</ele><time>2024-01-31T08:06:45Z</time></trkpt>
+      <trkpt lat="39.9988" lon="116.4655"><ele>45.8</ele><time>2024-01-31T08:06:48Z</time></trkpt>
+      <trkpt lat="39.9980" lon="116.4660"><ele>45.5</ele><time>2024-01-31T08:06:51Z</time></trkpt>
+      <trkpt lat="39.9972" lon="116.4665"><ele>45.2</ele><time>2024-01-31T08:06:54Z</time></trkpt>
+      <trkpt lat="39.9965" lon="116.4670"><ele>45.0</ele><time>2024-01-31T08:06:57Z</time></trkpt>
+      <trkpt lat="39.9958" lon="116.4675"><ele>44.8</ele><time>2024-01-31T08:07:00Z</time></trkpt>
+      <trkpt lat="39.9950" lon="116.4680"><ele>44.5</ele><time>2024-01-31T08:07:03Z</time></trkpt>
+      <trkpt lat="39.9942" lon="116.4685"><ele>44.2</ele><time>2024-01-31T08:07:06Z</time></trkpt>
+      <trkpt lat="39.9935" lon="116.4690"><ele>44.0</ele><time>2024-01-31T08:07:09Z</time></trkpt>
+      <trkpt lat="39.9928" lon="116.4695"><ele>43.8</ele><time>2024-01-31T08:07:12Z</time></trkpt>
+      <trkpt lat="39.9920" lon="116.4700"><ele>43.5</ele><time>2024-01-31T08:07:15Z</time></trkpt>
+      <trkpt lat="39.9912" lon="116.4705"><ele>43.2</ele><time>2024-01-31T08:07:18Z</time></trkpt>
+      <trkpt lat="39.9905" lon="116.4710"><ele>43.0</ele><time>2024-01-31T08:07:21Z</time></trkpt>
+      <trkpt lat="39.9898" lon="116.4715"><ele>42.8</ele><time>2024-01-31T08:07:24Z</time></trkpt>
+      <trkpt lat="39.9890" lon="116.4720"><ele>42.5</ele><time>2024-01-31T08:07:27Z</time></trkpt>
+      <trkpt lat="39.9882" lon="116.4725"><ele>42.2</ele><time>2024-01-31T08:07:30Z</time></trkpt>
+      <trkpt lat="39.9875" lon="116.4730"><ele>42.0</ele><time>2024-01-31T08:07:33Z</time></trkpt>
+      <trkpt lat="39.9868" lon="116.4735"><ele>41.8</ele><time>2024-01-31T08:07:36Z</time></trkpt>
+      <trkpt lat="39.9860" lon="116.4740"><ele>41.5</ele><time>2024-01-31T08:07:39Z</time></trkpt>
+
+      <!-- POSITION JUMP ANOMALY (point 151): Sudden location jump -->
+      <trkpt lat="39.9400" lon="116.5200"><ele>40.0</ele><time>2024-01-31T08:07:42Z</time></trkpt> <!-- Big jump! -->
+      <trkpt lat="39.9850" lon="116.4745"><ele>41.0</ele><time>2024-01-31T08:07:45Z</time></trkpt> <!-- Correction back -->
+      <trkpt lat="39.9842" lon="116.4750"><ele>41.2</ele><time>2024-01-31T08:07:48Z</time></trkpt>
+      <trkpt lat="39.9835" lon="116.4755"><ele>41.5</ele><time>2024-01-31T08:07:51Z</time></trkpt>
+      <trkpt lat="39.9828" lon="116.4760"><ele>41.8</ele><time>2024-01-31T08:07:54Z</time></trkpt>
+      <trkpt lat="39.9820" lon="116.4765"><ele>42.0</ele><time>2024-01-31T08:07:57Z</time></trkpt>
+      <trkpt lat="39.9812" lon="116.4770"><ele>42.2</ele><time>2024-01-31T08:08:00Z</time></trkpt>
+      <trkpt lat="39.9805" lon="116.4775"><ele>42.5</ele><time>2024-01-31T08:08:03Z</time></trkpt>
+      <trkpt lat="39.9798" lon="116.4780"><ele>42.8</ele><time>2024-01-31T08:08:06Z</time></trkpt>
+      <trkpt lat="39.9790" lon="116.4785"><ele>43.0</ele><time>2024-01-31T08:08:09Z</time></trkpt>
+
+      <!-- DENSITY ANOMALY (points 161-175): Stopped at traffic light -->
+      <!-- Points very close together over time -->
+      <trkpt lat="39.9785" lon="116.4790"><ele>43.2</ele><time>2024-01-31T08:08:15Z</time></trkpt>
+      <trkpt lat="39.9785" lon="116.4791"><ele>43.2</ele><time>2024-01-31T08:08:21Z</time></trkpt> <!-- Waiting -->
+      <trkpt lat="39.9785" lon="116.4791"><ele>43.2</ele><time>2024-01-31T08:08:27Z</time></trkpt> <!-- Waiting -->
+      <trkpt lat="39.9784" lon="116.4791"><ele>43.2</ele><time>2024-01-31T08:08:33Z</time></trkpt> <!-- Waiting -->
+      <trkpt lat="39.9784" lon="116.4790"><ele>43.2</ele><time>2024-01-31T08:08:39Z</time></trkpt> <!-- Waiting -->
+      <trkpt lat="39.9784" lon="116.4790"><ele>43.2</ele><time>2024-01-31T08:08:45Z</time></trkpt> <!-- Waiting -->
+      <trkpt lat="39.9784" lon="116.4789"><ele>43.2</ele><time>2024-01-31T08:08:51Z</time></trkpt> <!-- Waiting -->
+      <trkpt lat="39.9783" lon="116.4789"><ele>43.2</ele><time>2024-01-31T08:08:57Z</time></trkpt> <!-- Waiting -->
+      <trkpt lat="39.9783" lon="116.4788"><ele>43.2</ele><time>2024-01-31T08:09:03Z</time></trkpt> <!-- Waiting -->
+      <trkpt lat="39.9783" lon="116.4788"><ele>43.2</ele><time>2024-01-31T08:09:09Z</time></trkpt> <!-- Waiting -->
+      <trkpt lat="39.9782" lon="116.4787"><ele>43.2</ele><time>2024-01-31T08:09:15Z</time></trkpt> <!-- Waiting -->
+      <trkpt lat="39.9782" lon="116.4787"><ele>43.2</ele><time>2024-01-31T08:09:21Z</time></trkpt> <!-- Waiting -->
+      <trkpt lat="39.9782" lon="116.4786"><ele>43.2</ele><time>2024-01-31T08:09:27Z</time></trkpt> <!-- Waiting -->
+      <trkpt lat="39.9781" lon="116.4786"><ele>43.2</ele><time>2024-01-31T08:09:33Z</time></trkpt> <!-- Light green! -->
+      <trkpt lat="39.9780" lon="116.4785"><ele>43.2</ele><time>2024-01-31T08:09:36Z</time></trkpt> <!-- Moving again -->
+      <trkpt lat="39.9775" lon="116.4780"><ele>43.0</ele><time>2024-01-31T08:09:39Z</time></trkpt>
+
+      <!-- Continue west (points 176-210) -->
+      <trkpt lat="39.9770" lon="116.4775"><ele>42.8</ele><time>2024-01-31T08:09:42Z</time></trkpt>
+      <trkpt lat="39.9765" lon="116.4770"><ele>42.5</ele><time>2024-01-31T08:09:45Z</time></trkpt>
+      <trkpt lat="39.9760" lon="116.4765"><ele>42.2</ele><time>2024-01-31T08:09:48Z</time></trkpt>
+      <trkpt lat="39.9755" lon="116.4760"><ele>42.0</ele><time>2024-01-31T08:09:51Z</time></trkpt>
+      <trkpt lat="39.9750" lon="116.4755"><ele>41.8</ele><time>2024-01-31T08:09:54Z</time></trkpt>
+      <trkpt lat="39.9745" lon="116.4750"><ele>41.5</ele><time>2024-01-31T08:09:57Z</time></trkpt>
+      <trkpt lat="39.9740" lon="116.4745"><ele>41.2</ele><time>2024-01-31T08:10:00Z</time></trkpt>
+      <trkpt lat="39.9735" lon="116.4740"><ele>41.0</ele><time>2024-01-31T08:10:03Z</time></trkpt>
+      <trkpt lat="39.9730" lon="116.4735"><ele>40.8</ele><time>2024-01-31T08:10:06Z</time></trkpt>
+      <trkpt lat="39.9725" lon="116.4730"><ele>40.5</ele><time>2024-01-31T08:10:09Z</time></trkpt>
+      <trkpt lat="39.9720" lon="116.4725"><ele>40.2</ele><time>2024-01-31T08:10:12Z</time></trkpt>
+      <trkpt lat="39.9715" lon="116.4720"><ele>40.0</ele><time>2024-01-31T08:10:15Z</time></trkpt>
+      <trkpt lat="39.9710" lon="116.4715"><ele>39.8</ele><time>2024-01-31T08:10:18Z</time></trkpt>
+      <trkpt lat="39.9705" lon="116.4710"><ele>39.5</ele><time>2024-01-31T08:10:21Z</time></trkpt>
+      <trkpt lat="39.9700" lon="116.4705"><ele>39.2</ele><time>2024-01-31T08:10:24Z</time></trkpt>
+      <trkpt lat="39.9695" lon="116.4700"><ele>39.0</ele><time>2024-01-31T08:10:27Z</time></trkpt>
+      <trkpt lat="39.9690" lon="116.4695"><ele>38.8</ele><time>2024-01-31T08:10:30Z</time></trkpt>
+      <trkpt lat="39.9685" lon="116.4690"><ele>38.5</ele><time>2024-01-31T08:10:33Z</time></trkpt>
+      <trkpt lat="39.9680" lon="116.4685"><ele>38.2</ele><time>2024-01-31T08:10:36Z</time></trkpt>
+      <trkpt lat="39.9675" lon="116.4680"><ele>38.0</ele><time>2024-01-31T08:10:39Z</time></trkpt>
+      <trkpt lat="39.9670" lon="116.4675"><ele>37.8</ele><time>2024-01-31T08:10:42Z</time></trkpt>
+      <trkpt lat="39.9665" lon="116.4670"><ele>37.5</ele><time>2024-01-31T08:10:45Z</time></trkpt>
+      <trkpt lat="39.9660" lon="116.4665"><ele>37.2</ele><time>2024-01-31T08:10:48Z</time></trkpt>
+      <trkpt lat="39.9655" lon="116.4660"><ele>37.0</ele><time>2024-01-31T08:10:51Z</time></trkpt>
+      <trkpt lat="39.9650" lon="116.4655"><ele>36.8</ele><time>2024-01-31T08:10:54Z</time></trkpt>
+      <trkpt lat="39.9645" lon="116.4650"><ele>36.5</ele><time>2024-01-31T08:10:57Z</time></trkpt>
+
+      <!-- MISSING DATA ANOMALY (points 211-225): Tunnel section -->
+      <!-- Large time gap, no points in between -->
+      <trkpt lat="39.9640" lon="116.4645"><ele>36.2</ele><time>2024-01-31T08:11:00Z</time></trkpt> <!-- Entering tunnel -->
+      <!-- Gap: 90 seconds missing (tunnel) -->
+      <trkpt lat="39.9500" lon="116.4550"><ele>35.0</ele><time>2024-01-31T08:13:00Z</time></trkpt> <!-- Exiting tunnel -->
+      <trkpt lat="39.9495" lon="116.4545"><ele>35.2</ele><time>2024-01-31T08:13:03Z</time></trkpt>
+      <trkpt lat="39.9490" lon="116.4540"><ele>35.5</ele><time>2024-01-31T08:13:06Z</time></trkpt>
+      <trkpt lat="39.9485" lon="116.4535"><ele>35.8</ele><time>2024-01-31T08:13:09Z</time></trkpt>
+      <trkpt lat="39.9480" lon="116.4530"><ele>36.0</ele><time>2024-01-31T08:13:12Z</time></trkpt>
+      <trkpt lat="39.9475" lon="116.4525"><ele>36.2</ele><time>2024-01-31T08:13:15Z</time></trkpt>
+      <trkpt lat="39.9470" lon="116.4520"><ele>36.5</ele><time>2024-01-31T08:13:18Z</time></trkpt>
+      <trkpt lat="39.9465" lon="116.4515"><ele>36.8</ele><time>2024-01-31T08:13:21Z</time></trkpt>
+      <trkpt lat="39.9460" lon="116.4510"><ele>37.0</ele><time>2024-01-31T08:13:24Z</time></trkpt>
+      <trkpt lat="39.9455" lon="116.4505"><ele>37.2</ele><time>2024-01-31T08:13:27Z</time></trkpt>
+      <trkpt lat="39.9450" lon="116.4500"><ele>37.5</ele><time>2024-01-31T08:13:30Z</time></trkpt>
+      <trkpt lat="39.9445" lon="116.4495"><ele>37.8</ele><time>2024-01-31T08:13:33Z</time></trkpt>
+      <trkpt lat="39.9440" lon="116.4490"><ele>38.0</ele><time>2024-01-31T08:13:36Z</time></trkpt>
+      <trkpt lat="39.9435" lon="116.4485"><ele>38.2</ele><time>2024-01-31T08:13:39Z</time></trkpt>
+      <trkpt lat="39.9430" lon="116.4480"><ele>38.5</ele><time>2024-01-31T08:13:42Z</time></trkpt>
+
+      <!-- ACCELERATION ANOMALY (point 227): Hard brake -->
+      <trkpt lat="39.9425" lon="116.4475"><ele>38.8</ele><time>2024-01-31T08:13:45Z</time></trkpt>
+      <trkpt lat="39.9420" lon="116.4470"><ele>39.0</ele><time>2024-01-31T08:13:48Z</time></trkpt>
+      <trkpt lat="39.9418" lon="116.4468"><ele>39.2</ele><time>2024-01-31T08:13:49Z</time></trkpt> <!-- Sudden brake! -->
+      <trkpt lat="39.9415" lon="116.4465"><ele>39.2</ele><time>2024-01-31T08:13:54Z</time></trkpt> <!-- Stopped -->
+      <trkpt lat="39.9415" lon="116.4465"><ele>39.2</ele><time>2024-01-31T08:13:59Z</time></trkpt> <!-- Waiting -->
+      <trkpt lat="39.9412" lon="116.4462"><ele>39.2</ele><time>2024-01-31T08:14:04Z</time></trkpt> <!-- Moving again -->
+      <trkpt lat="39.9408" lon="116.4458"><ele>39.0</ele><time>2024-01-31T08:14:07Z</time></trkpt>
+      <trkpt lat="39.9405" lon="116.4455"><ele>38.8</ele><time>2024-01-31T08:14:10Z</time></trkpt>
+      <trkpt lat="39.9400" lon="116.4450"><ele>38.5</ele><time>2024-01-31T08:14:13Z</time></trkpt>
+
+      <!-- Continue to destination (points 235-260) -->
+      <trkpt lat="39.9395" lon="116.4445"><ele>38.2</ele><time>2024-01-31T08:14:16Z</time></trkpt>
+      <trkpt lat="39.9390" lon="116.4440"><ele>38.0</ele><time>2024-01-31T08:14:19Z</time></trkpt>
+      <trkpt lat="39.9385" lon="116.4435"><ele>37.8</ele><time>2024-01-31T08:14:22Z</time></trkpt>
+      <trkpt lat="39.9380" lon="116.4430"><ele>37.5</ele><time>2024-01-31T08:14:25Z</time></trkpt>
+      <trkpt lat="39.9375" lon="116.4425"><ele>37.2</ele><time>2024-01-31T08:14:28Z</time></trkpt>
+      <trkpt lat="39.9370" lon="116.4420"><ele>37.0</ele><time>2024-01-31T08:14:31Z</time></trkpt>
+      <trkpt lat="39.9365" lon="116.4415"><ele>36.8</ele><time>2024-01-31T08:14:34Z</time></trkpt>
+      <trkpt lat="39.9360" lon="116.4410"><ele>36.5</ele><time>2024-01-31T08:14:37Z</time></trkpt>
+      <trkpt lat="39.9355" lon="116.4405"><ele>36.2</ele><time>2024-01-31T08:14:40Z</time></trkpt>
+      <trkpt lat="39.9350" lon="116.4400"><ele>36.0</ele><time>2024-01-31T08:14:43Z</time></trkpt>
+      <trkpt lat="39.9345" lon="116.4395"><ele>35.8</ele><time>2024-01-31T08:14:46Z</time></trkpt>
+      <trkpt lat="39.9340" lon="116.4390"><ele>35.5</ele><time>2024-01-31T08:14:49Z</time></trkpt>
+      <trkpt lat="39.9335" lon="116.4385"><ele>35.2</ele><time>2024-01-31T08:14:52Z</time></trkpt>
+      <trkpt lat="39.9330" lon="116.4380"><ele>35.0</ele><time>2024-01-31T08:14:55Z</time></trkpt>
+      <trkpt lat="39.9325" lon="116.4375"><ele>34.8</ele><time>2024-01-31T08:14:58Z</time></trkpt>
+      <trkpt lat="39.9320" lon="116.4370"><ele>34.5</ele><time>2024-01-31T08:15:01Z</time></trkpt>
+      <trkpt lat="39.9315" lon="116.4365"><ele>34.2</ele><time>2024-01-31T08:15:04Z</time></trkpt>
+      <trkpt lat="39.9310" lon="116.4360"><ele>34.0</ele><time>2024-01-31T08:15:07Z</time></trkpt>
+      <trkpt lat="39.9305" lon="116.4355"><ele>33.8</ele><time>2024-01-31T08:15:10Z</time></trkpt>
+      <trkpt lat="39.9300" lon="116.4350"><ele>33.5</ele><time>2024-01-31T08:15:13Z</time></trkpt>
+      <trkpt lat="39.9295" lon="116.4345"><ele>33.2</ele><time>2024-01-31T08:15:16Z</time></trkpt>
+      <trkpt lat="39.9290" lon="116.4340"><ele>33.0</ele><time>2024-01-31T08:15:19Z</time></trkpt>
+      <trkpt lat="39.9285" lon="116.4335"><ele>32.8</ele><time>2024-01-31T08:15:22Z</time></trkpt>
+      <trkpt lat="39.9280" lon="116.4330"><ele>32.5</ele><time>2024-01-31T08:15:25Z</time></trkpt>
+
+      <!-- Final destination -->
+      <trkpt lat="39.9275" lon="116.4325"><ele>32.0</ele><time>2024-01-31T08:15:28Z</time></trkpt>
+    </trkseg>
+  </trk>
+</gpx>

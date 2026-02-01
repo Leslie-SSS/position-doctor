@@ -1,0 +1,61 @@
+# Binaries
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+dist/
+build/
+
+# Go
+backend/server
+backend/backend
+*.test
+*.out
+go.sum
+
+# Node
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/.turbo/
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Environment
+.env
+.env.local
+.env.*.local
+!.env.template
+
+# Logs
+logs/
+*.log
+
+# Coverage
+coverage/
+coverage.txt
+coverage.html
+
+# Temp files
+tmp/
+temp/
+*.tmp
+
+# Docker
+.docker/
+
+# OS
+.DS_Store
+Thumbs.db
