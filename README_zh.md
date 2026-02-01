@@ -1,37 +1,83 @@
 <div align="center">
 
-<img src="docs/logo.svg" width="100" alt="PositionDoctor Logo"/>
+<img src="docs/logo.svg" width="120" alt="PositionDoctor"/>
 
 # PositionDoctor
 
-**GPS 轨迹诊断医生 —— 让数据更精准**
+<div align="center">
+
+**Diagnose & Heal Your GPS Trajectories**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Go](https://img.shields.io/badge/Go-1.21+-00ADD8?logo=go)](https://go.dev/)
-[![React](https://img.shields.io/badge/React-18+-61DAFB?logo=react)](https://react.dev/)
+[![Go](https://img.shields.io/badge/Go-1.21+-00ADD8?logo=go&logoColor=white)](https://go.dev/)
+[![React](https://img.shields.io/badge/React-18+-61DAFB?logo=react&logoColor=white)](https://react.dev/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white)](https://www.docker.com/)
 
-[English](README.md) | [简体中文](README_zh.md)
+[English](README.md) · [简体中文](README_zh.md)
+
+</div>
 
 </div>
 
 ---
 
-上传 GPX/KML 文件 → 即时诊断 → 一键修复
+## Why PositionDoctor?
 
-适合跑步、骑行、徒步及所有依赖 GPS 跟踪的用户。
+GPS tracks are often noisy: signal drift, sudden jumps, speed spikes... These issues distort your activity data and affect analysis accuracy.
 
----
+PositionDoctor is an **automated GPS trajectory diagnosis and repair tool**. Upload your file, one-click fix.
 
-## 功能特性
-
-- **6 种异常检测** — 漂移、跳变、速度、加速度、密度、离群点
-- **智能修复** — AdaptiveRTS 算法（比卡尔曼滤波精准 30-40%）
-- **可视化分析** — 地图对比、健康评分、轨迹回放
-- **便捷导出** — GPX、KML、GeoJSON、JSON
+> **Perfect for**: Running, Cycling, Hiking, Marathon Training, Outdoor Activity Analysis
 
 ---
 
-## 快速开始
+## Core Features
+
+<div align="center">
+
+<table>
+<tr>
+<td width="50%">
+
+**🔍 6 Anomaly Detection Types**
+
+Drift · Jump · Speed Anomaly
+Acceleration · Density · Outlier
+
+</td>
+<td width="50%">
+
+**🧠 Smart Repair Algorithms**
+
+AdaptiveRTS · Spline Interpolation
+Douglas-Peucker · Statistical Filter
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+**📊 Visual Analysis**
+
+Map Comparison · Health Score
+Playback Animation · Anomaly Markers
+
+</td>
+<td width="50%">
+
+**💾 Multiple Export Formats**
+
+GPX · KML · GeoJSON · JSON
+
+</td>
+</tr>
+</table>
+
+</div>
+
+---
+
+## Quick Start
 
 ```bash
 git clone https://github.com/LeslieSSS/position-doctor.git
@@ -39,32 +85,90 @@ cd position-doctor
 docker-compose up -d
 ```
 
-打开 http://localhost:3002
+Visit http://localhost:3002
 
 ---
 
-## API 使用
+## Demo
+
+<div align="center">
+
+<table>
+<tr>
+<td width="100%">
+
+<img src="docs/demo.gif" width="100%" alt="PositionDoctor Demo"/>
+
+</td>
+</tr>
+</table>
+
+</div>
+
+---
+
+## Tech Stack
+
+```
+┌────────────────────────────────────────────────────────────┐
+│                        PositionDoctor                       │
+├────────────────────────────────────────────────────────────┤
+│                                                             │
+│   ┌─────────────────┐         ┌─────────────────┐         │
+│   │   React 18      │         │      Go 1.21    │         │
+│   │   + TypeScript  │ ◄─────► │    + Chi        │         │
+│   │   + Tailwind    │  HTTP   │   + AdaptiveRTS │         │
+│   │   + Leaflet     │         │                 │         │
+│   └─────────────────┘         └─────────────────┘         │
+│          Frontend                    Backend              │
+│                                                             │
+└────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Algorithm Advantage
+
+| Algorithm | Improvement | Use Case |
+|-----------|-------------|----------|
+| **AdaptiveRTS** | +30~40% vs Kalman | Dynamic tracks, variable speed |
+| **Douglas-Peucker** | 60~80% compression | Data simplification |
+| **Spline Interpolation** | +50% smoothness | Missing point filling |
+| **Statistical Filter** | 95%+ outlier removal | Noise cleaning |
+
+---
+
+## API Usage
 
 ```bash
-# 上传并诊断
+# Upload & diagnose
 curl -X POST http://localhost:8081/api/v1/diagnose \
-  -F "file=@your_track.gpx"
+  -F "file=@track.gpx"
 
-# 下载清洗结果
-curl http://localhost:8081/api/v1/export/{reportId}/gpx -o cleaned.gpx
+# Download cleaned result
+curl http://localhost:8081/api/v1/export/{id}/gpx -o cleaned.gpx
 ```
 
 ---
 
-## 技术栈
+## Star History
 
-```
-前端: React 18 + TypeScript + Vite + Tailwind + Leaflet
-后端: Go 1.21 + Chi Router
-```
+<a href="https://github.com/LeslieSSS/position-doctor/stargazers">
+  <img src="https://api.star-history.com/svg?repos=LeslieSSS/position-doctor&type=Date" alt="Star History Chart">
+</a>
 
 ---
 
-## 开源协议
+## License
 
-MIT © 2024 PositionDoctor
+MIT © 2026 PositionDoctor · [View License](LICENSE)
+
+---
+
+<div align="center">
+
+**Built with ❤️ for GPS enthusiasts**
+
+[⭐ Star](https://github.com/LeslieSSS/position-doctor) · [🐛 Issues](https://github.com/LeslieSSS/position-doctor/issues) · [💬 Discussions](https://github.com/LeslieSSS/position-doctor/discussions)
+
+</div>
