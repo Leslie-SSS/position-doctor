@@ -28,6 +28,22 @@ GPS 轨迹常常充满噪声：信号漂移、突然跳变、速度异常。这�
 
 ---
 
+## 在线演示
+
+**网站地址:** https://position-doctor.keepbuild.cn
+
+**API 文档:** https://position-doctor.keepbuild.cn/#/api-docs
+
+<a href="https://position-doctor.keepbuild.cn">
+  <img src="docs/home.png" width="800" alt="PositionDoctor 首页"/>
+</a>
+
+<a href="https://position-doctor.keepbuild.cn">
+  <img src="docs/map.png" width="800" alt="PositionDoctor 地图视图"/>
+</a>
+
+---
+
 ## 功能特性
 
 | 检测类型 | 修复算法 | 可视化 |
@@ -216,6 +232,13 @@ CORS_ORIGINS=http://localhost:3002
 VITE_API_URL=http://localhost:8081
 VITE_GOOGLE_MAPS_API_KEY=你的密钥
 ```
+
+---
+
+## 相关链接
+
+- **网站地址:** https://position-doctor.keepbuild.cn
+- **API 文档:** https://position-doctor.keepbuild.cn/#/api-docs
 
 ---
 

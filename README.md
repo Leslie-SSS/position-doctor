@@ -28,6 +28,22 @@ Perfect for runners, cyclists, hikers, and anyone who relies on GPS tracking.
 
 ---
 
+## Live Demo
+
+**Website:** https://position-doctor.keepbuild.cn
+
+**API Docs:** https://position-doctor.keepbuild.cn/#/api-docs
+
+<a href="https://position-doctor.keepbuild.cn">
+  <img src="docs/home.png" width="800" alt="PositionDoctor Home Page"/>
+</a>
+
+<a href="https://position-doctor.keepbuild.cn">
+  <img src="docs/map.png" width="800" alt="PositionDoctor Map View"/>
+</a>
+
+---
+
 ## Features
 
 | Detection | Repair | Visualization |
@@ -216,6 +232,13 @@ CORS_ORIGINS=http://localhost:3002
 VITE_API_URL=http://localhost:8081
 VITE_GOOGLE_MAPS_API_KEY=your_key_here
 ```
+
+---
+
+## Links
+
+- **Website:** https://position-doctor.keepbuild.cn
+- **API Documentation:** https://position-doctor.keepbuild.cn/#/api-docs
 
 ---
 

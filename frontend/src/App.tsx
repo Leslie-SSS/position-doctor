@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+import { Suspense, useEffect } from 'react'
 import { I18nextProvider } from 'react-i18next'
 import i18n from './i18n/config'
 import { useStore } from '@/hooks/useStore'
@@ -12,6 +12,34 @@ import { APIDocsPage } from '@/pages/APIDocsPage'
 function AppContent() {
   const { t } = useAppTranslation()
   const { uploadState, currentView, setView } = useStore()
+
+  // Hash-based routing support
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash
+      if (hash === '#/api-docs' || hash === '#/api') {
+        setView('api-docs')
+      } else if (hash === '#/' || hash === '') {
+        setView('app')
+      }
+    }
+
+    // Check initial hash
+    handleHashChange()
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [setView])
+
+  // Sync view state with URL
+  useEffect(() => {
+    if (currentView === 'api-docs' && window.location.hash !== '#/api-docs' && window.location.hash !== '#/api') {
+      window.location.hash = '#/api-docs'
+    } else if (currentView === 'app' && (window.location.hash === '#/api-docs' || window.location.hash === '#/api')) {
+      window.location.hash = '#/'
+    }
+  }, [currentView])
 
   // Show API Docs page
   if (currentView === 'api-docs') {
